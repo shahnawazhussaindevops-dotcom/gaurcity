@@ -1,0 +1,5 @@
+# Local-only — not part of the deployed site
+serve.js
+shots/
+frames/
+.git/
