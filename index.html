@@ -18,230 +18,122 @@
       --text-muted: rgba(255, 255, 255, 0.7);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      background-color: var(--bg-color); color: var(--text-color);
+      font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased;
     }
 
-    h1, h2, h3, .display {
-      font-family: 'Fraunces', serif;
-      font-weight: 400;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-    }
-
-    /* Fluid typography */
+    h1, h2, h3, .display { font-family: 'Fraunces', serif; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
     h1 { font-size: clamp(2.5rem, 6vw + 1rem, 6rem); }
     h2 { font-size: clamp(2rem, 4vw + 1rem, 4rem); }
     p { font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); line-height: 1.6; }
 
-    /* Accessibility focus */
-    :focus-visible {
-      outline: 2px solid var(--accent-color);
-      outline-offset: 4px;
-    }
-
     /* Header */
-    .site-header {
-      position: fixed; 
-      top: 0; 
-      width: 100%; 
-      z-index: 50; 
-      padding: 2rem; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      pointer-events: none;
-    }
+    .site-header { position: fixed; top: 0; width: 100%; z-index: 50; padding: 2rem; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+    .site-logo { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--accent-color); pointer-events: auto; }
+    .site-nav { pointer-events: auto; }
+    .site-nav a { color: white; text-decoration: none; margin-left: 2rem; font-weight: 500; transition: color 0.3s ease; }
+    .site-nav a:hover { color: var(--accent-color); }
+
+    /* Hero Section */
+    .hero-spacer { height: 600vh; position: relative; }
+    .hero-sticky { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 1000px; background: #000; }
     
-    .site-logo {
-      font-family: 'Fraunces', serif; 
-      font-size: 1.5rem; 
-      color: var(--accent-color); 
-      pointer-events: auto;
-    }
-
-    .site-nav {
-      pointer-events: auto;
-    }
-
-    .site-nav a {
-      color: white; 
-      text-decoration: none; 
-      margin-left: 2rem;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .site-nav a:hover {
-      color: var(--accent-color);
-    }
-
-    /* Spacer for hero scrub - increased for multiple panels */
-    .hero-spacer {
-      height: 600vh;
-      position: relative;
-    }
-
-    .hero-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      perspective: 1000px; /* For 3D effects */
-    }
-
-    /* Cinematic vignette & text-contrast overlay */
     .hero-sticky::after {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: radial-gradient(circle, rgba(10,8,5,0.1) 0%, rgba(10,8,5,0.7) 100%), linear-gradient(to bottom, rgba(10,8,5,0.7) 0%, rgba(10,8,5,0.2) 50%, rgba(10,8,5,0.8) 100%);
-      z-index: 0;
-      pointer-events: none;
+      z-index: 0; pointer-events: none;
     }
 
     #hero-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-      opacity: 0.9;
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: -1; opacity: 0.9;
     }
 
-    /* --- OVERLAY PANELS --- */
+    /* Hero Panels */
     .hero-overlay-panel {
-      position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 100%; max-width: 1200px; padding: 0 1rem;
-      text-align: center; z-index: 10;
-      opacity: 0; pointer-events: none;
-      will-change: opacity, transform;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 100%; max-width: 1200px; padding: 0 1rem; text-align: center;
+      z-index: 10; opacity: 0; pointer-events: none; will-change: opacity, transform;
     }
-
     .hero-overlay-panel.active { pointer-events: auto; }
-    
     #panel-intro { opacity: 1; pointer-events: auto; }
-
-    #panel-intro p.subhead {
-      color: var(--accent-color); font-weight: 500; text-transform: uppercase;
-      letter-spacing: 0.1em; margin-bottom: 1rem; font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
-    }
-
-    /* Magnetic Button */
-    .magnetic-btn-wrap {
-      display: inline-block; padding: 2rem; cursor: pointer;
-    }
-
-    .cta-button {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: var(--surface-color); color: var(--accent-color);
-      border: 1px solid rgba(227, 195, 124, 0.3); padding: 1rem 2rem; border-radius: 9999px;
-      text-decoration: none; font-weight: 500; font-size: 1.125rem;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      pointer-events: none; /* Let wrap handle hover */
-      transition: background 0.3s ease, color 0.3s ease;
-    }
+    #panel-intro p.subhead { color: var(--accent-color); font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem); }
     
-    .magnetic-btn-wrap:hover .cta-button {
-      background: var(--accent-color); color: var(--bg-color);
+    .magnetic-btn-wrap { display: inline-block; padding: 2rem; cursor: pointer; }
+    .cta-button {
+      display: inline-flex; align-items: center; justify-content: center; background: var(--surface-color); color: var(--accent-color);
+      border: 1px solid rgba(227, 195, 124, 0.3); padding: 1rem 2rem; border-radius: 9999px; text-decoration: none; font-weight: 500; font-size: 1.125rem;
+      backdrop-filter: blur(10px); pointer-events: none; transition: background 0.3s ease, color 0.3s ease;
     }
-
-    /* Text Reveal Panel */
-    #arch-text span {
-      display: inline-block;
-      white-space: pre;
-    }
+    .magnetic-btn-wrap:hover .cta-button { background: var(--accent-color); color: var(--bg-color); }
+    #arch-text span { display: inline-block; white-space: pre; }
 
     /* Bento Grid */
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 220px);
-      gap: 1.5rem;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
+    .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 220px); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
     .bento-item {
-      background: rgba(21, 16, 10, 0.5);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(227, 195, 124, 0.15);
-      border-radius: 24px;
-      padding: 2rem;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      text-align: left;
-      transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
-      position: relative; overflow: hidden;
-      opacity: 0; /* for anime.js */
+      background: rgba(21, 16, 10, 0.5); backdrop-filter: blur(16px); border: 1px solid rgba(227, 195, 124, 0.15); border-radius: 24px; padding: 2rem;
+      display: flex; flex-direction: column; justify-content: flex-end; text-align: left; transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative; overflow: hidden; opacity: 0;
     }
-
-    .bento-item:hover {
-      border-color: rgba(227, 195, 124, 0.6);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    /* Shimmer effect on hover */
+    .bento-item:hover { border-color: rgba(227, 195, 124, 0.6); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .bento-item::before {
        content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-       background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
-       transform: skewX(-20deg); transition: left 0.6s ease;
+       background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent); transform: skewX(-20deg); transition: left 0.6s ease;
     }
     .bento-item:hover::before { left: 150%; }
-
     .bento-item:nth-child(1) { grid-column: span 2; grid-row: span 2; justify-content: space-between; }
     .bento-item h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--accent-color); }
     .bento-item p { font-size: 1rem; color: var(--text-muted); line-height: 1.4; }
 
-    /* Content sections */
-    section {
-      position: relative; background: var(--bg-color); z-index: 20; padding: 8rem 2rem;
-    }
+    /* General Sections (Generous Spacing) */
+    section { position: relative; background: var(--bg-color); z-index: 20; padding: 10rem 2rem; }
     .container { max-width: 1440px; margin: 0 auto; }
     .content-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
     @media (min-width: 768px) { .content-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
     
-    .card {
-      background: var(--surface-color); border-radius: 24px; padding: 3rem;
-      border: 1px solid rgba(255,255,255,0.05); opacity: 0; transform: translateY(40px);
-    }
-    .card-title { color: var(--accent-color); margin-bottom: 1rem; font-size: 1.5rem; }
+    /* 3D Flip Cards */
+    .flip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; }
+    .flip-card { perspective: 1000px; height: 350px; cursor: pointer; }
+    .flip-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0.2, 0, 1); transform-style: preserve-3d; }
+    .flip-card:hover .flip-inner { transform: rotateY(180deg); }
+    .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 24px; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .flip-front { background: var(--surface-color); border: 1px solid rgba(255,255,255,0.05); }
+    .flip-back { background: var(--accent-color); color: var(--bg-color); transform: rotateY(180deg); }
+    
+    /* Liquid Accordion */
+    .accordion-item { border-bottom: 1px solid rgba(255,255,255,0.1); overflow: hidden; cursor: pointer; }
+    .accordion-header { padding: 2rem 0; font-size: 1.5rem; font-family: 'Fraunces', serif; display: flex; justify-content: space-between; align-items: center; color: var(--accent-color); }
+    .accordion-content { height: 0; opacity: 0; padding-bottom: 0; color: var(--text-muted); line-height: 1.6; }
+    
+    /* SVG Map Path */
+    #map-svg-container { width: 100%; max-width: 1000px; margin: 4rem auto; position: relative; }
+    .map-label { fill: var(--text-muted); font-size: 16px; font-family: 'Inter', sans-serif; }
+    .map-title { fill: var(--accent-color); font-size: 24px; font-weight: bold; }
+    
+    /* Circular Progress Stats */
+    .circ-stat { display: flex; flex-direction: column; align-items: center; position: relative; }
+    .circ-svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+    .circ-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 8; }
+    .circ-progress { fill: none; stroke: var(--accent-color); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 440; stroke-dashoffset: 440; }
+    .circ-val { position: absolute; top: 60px; font-size: 2rem; font-family: 'Fraunces', serif; color: var(--accent-color); }
+
+    /* Animated Text SVG */
+    #svg-title-container { width: 100%; max-width: 1200px; margin: 0 auto; }
+    .svg-text-stroke { fill: transparent; stroke: var(--accent-color); stroke-width: 1; stroke-dasharray: 1000; stroke-dashoffset: 1000; font-family: 'Fraunces', serif; font-size: 120px; font-weight: 300; text-anchor: middle; dominant-baseline: middle; }
+
     .fade-up { opacity: 0; transform: translateY(40px); }
 
-    /* Reduced Motion & Mobile */
-    @media (max-width: 900px) {
-      .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-      .bento-item { min-height: 150px; }
-      .bento-item:nth-child(1) { grid-column: span 1; grid-row: span 1; }
-    }
-
-    @media (max-width: 767px) {
-      .site-header { flex-direction: column; gap: 1rem; }
-      .site-nav a { margin: 0 1rem; }
-    }
+    /* Media queries */
+    @media (max-width: 900px) { .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; } .bento-item:nth-child(1) { grid-column: span 1; grid-row: span 1; } .svg-text-stroke { font-size: 60px; } }
+    @media (max-width: 767px) { .site-header { flex-direction: column; gap: 1rem; } .site-nav a { margin: 0 1rem; } }
 
     @media (prefers-reduced-motion: reduce) {
       .hero-spacer { height: 100vh; }
       .hero-sticky { position: relative; }
       #panel-architecture, #panel-bento { display: none; }
-      .fade-up, .card, .bento-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .fade-up, .flip-inner, .accordion-content, .bento-item { opacity: 1 !important; transform: none !important; transition: none !important; }
       .cta-button, .magnetic-btn-wrap { transform: none !important; transition: none !important; }
     }
   </style>
@@ -252,16 +144,17 @@
     <div class="site-logo">Gaur City Centre</div>
     <nav class="site-nav">
       <a href="#discover">Discover</a>
+      <a href="#map">Location</a>
       <a href="#residences">Residences</a>
     </nav>
   </header>
 
   <main>
+    <!-- 1. Hero Section -->
     <div class="hero-spacer">
       <div class="hero-sticky">
         <video id="hero-video" src="scrub.mp4" playsinline muted preload="auto" aria-hidden="true"></video>
         
-        <!-- Panel 1: Intro -->
         <div class="hero-overlay-panel" id="panel-intro">
           <p class="subhead">The New Standard</p>
           <h1>Elevated Living<br>at Gaur City Centre</h1>
@@ -270,14 +163,12 @@
           </div>
         </div>
 
-        <!-- Panel 2: Text Reveal -->
         <div class="hero-overlay-panel" id="panel-architecture">
           <h2 id="arch-text">
             <span>A</span> <span>Vision</span> <span>in</span> <span>Glass</span> <span>and</span> <span>Steel.</span>
           </h2>
         </div>
 
-        <!-- Panel 3: Bento Grid -->
         <div class="hero-overlay-panel" id="panel-bento">
           <div class="bento-grid" id="bento-grid">
             <div class="bento-item">
@@ -287,68 +178,157 @@
                 <p>Unmatched panoramic views from the exclusive resident lounge.</p>
               </div>
             </div>
-            <div class="bento-item">
-               <h3>24/7 Concierge</h3>
-               <p>Dedicated staff catering to your every need.</p>
-            </div>
-            <div class="bento-item">
-               <h3>Smart Home</h3>
-               <p>Fully integrated climate and lighting control.</p>
-            </div>
-            <div class="bento-item">
-               <h3>Spa Oasis</h3>
-               <p>Temperature-controlled infinity pools and wellness center.</p>
-            </div>
-            <div class="bento-item">
-               <h3>Valet Parking</h3>
-               <p>Automated multi-level parking solutions.</p>
-            </div>
+            <div class="bento-item"><h3>24/7 Concierge</h3><p>Dedicated staff catering to your every need.</p></div>
+            <div class="bento-item"><h3>Smart Home</h3><p>Fully integrated climate and lighting control.</p></div>
+            <div class="bento-item"><h3>Spa Oasis</h3><p>Temperature-controlled infinity pools and wellness center.</p></div>
+            <div class="bento-item"><h3>Valet Parking</h3><p>Automated multi-level parking solutions.</p></div>
           </div>
         </div>
-        
       </div>
     </div>
 
-    <section id="discover">
-      <div class="container content-grid">
-        <div class="fade-up">
-          <h2>A seamless blend of luxury and design.</h2>
-          <p style="margin-top: 1.5rem; color: var(--text-muted);">
-            Experience architectural brilliance in the heart of the city. Every detail has been meticulously crafted to provide a living experience that transcends the ordinary.
-          </p>
-        </div>
-        <div class="card">
-          <h3 class="card-title">Curated Spaces</h3>
-          <p>Expansive layouts with panoramic views, designed for maximum light and flow.</p>
-        </div>
+    <!-- 2. SVG Signature Text Drawing -->
+    <section id="discover" style="text-align: center;">
+      <div class="container">
+         <div id="svg-title-container" class="fade-up">
+            <svg viewBox="0 0 1200 300" width="100%" style="height: auto;">
+               <text class="svg-text-stroke" x="600" y="150">GAURCITYCENTRE</text>
+            </svg>
+         </div>
+         <p class="fade-up" style="max-width: 600px; margin: 2rem auto; color: var(--text-muted);">
+            A masterpiece of modern architecture where luxury is drawn into every line and angle.
+         </p>
       </div>
     </section>
-    
-    <section id="residences" style="background: var(--surface-color);">
+
+    <!-- 3. SVG Map Motion Path -->
+    <section id="map" style="background: var(--surface-color); text-align: center;">
       <div class="container">
-        <div class="fade-up" style="text-align: center; max-width: 800px; margin: 0 auto 4rem;">
-          <h2>Uncompromising Quality</h2>
-          <p style="margin-top: 1.5rem; color: var(--text-muted);">
-            From the grand lobby to your private terrace, we employ only the finest materials and state-of-the-art technology.
-          </p>
+        <div class="fade-up">
+          <p class="subhead" style="color: var(--accent-color); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;">Unrivaled Connectivity</p>
+          <h2 style="margin: 1rem 0;">From Sector 52 to Your Doorstep</h2>
+          <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">A seamless, uninterrupted journey. Watch the direct route unfold.</p>
         </div>
         
-        <div class="content-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-          <div class="card stat-card" style="text-align: center;">
-            <h3 class="display" style="color: var(--accent-color); font-size: 4rem; margin-bottom: 0.5rem;"><span class="stat__num" data-target="50">0</span>+</h3>
-            <p>Premium Amenities</p>
-          </div>
-          <div class="card stat-card" style="text-align: center;">
-            <h3 class="display" style="color: var(--accent-color); font-size: 4rem; margin-bottom: 0.5rem;"><span class="stat__num" data-target="100">0</span>%</h3>
-            <p>Attention to Detail</p>
-          </div>
-          <div class="card stat-card" style="text-align: center;">
-            <h3 class="display" style="color: var(--accent-color); font-size: 4rem; margin-bottom: 0.5rem;"><span class="stat__num" data-target="24">0</span>/7</h3>
-            <p>Concierge Service</p>
-          </div>
+        <div id="map-svg-container" class="fade-up">
+          <svg viewBox="0 0 1000 400" width="100%" style="height: auto;">
+            <!-- Background Track -->
+            <path d="M 100,300 C 300,300 400,100 600,150 S 800,350 900,200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="6" stroke-linecap="round"/>
+            
+            <!-- Animated Drawing Path -->
+            <path id="route-path" class="anim-path" d="M 100,300 C 300,300 400,100 600,150 S 800,350 900,200" fill="none" stroke="var(--accent-color)" stroke-width="6" stroke-linecap="round"/>
+            
+            <!-- Nodes -->
+            <circle cx="100" cy="300" r="12" fill="var(--bg-color)" stroke="var(--accent-color)" stroke-width="4"/>
+            <text x="100" y="340" class="map-label" text-anchor="middle">Sector 52 Metro</text>
+            
+            <circle cx="900" cy="200" r="16" fill="var(--accent-color)"/>
+            <text x="900" y="160" class="map-title" text-anchor="middle">Gaur City Centre</text>
+            
+            <!-- Moving Car/Dot -->
+            <g id="travel-dot">
+               <circle cx="0" cy="0" r="8" fill="#fff" style="filter: drop-shadow(0 0 10px #fff);"/>
+            </g>
+          </svg>
         </div>
       </div>
     </section>
+
+    <!-- 4. 3D Flip Feature Cards -->
+    <section id="residences">
+      <div class="container">
+         <div class="fade-up" style="text-align: center; margin-bottom: 5rem;">
+            <h2>Curated Experiences</h2>
+            <p style="color: var(--text-muted); margin-top: 1rem;">Hover to reveal the meticulous details behind every amenity.</p>
+         </div>
+         <div class="flip-grid">
+            <div class="flip-card fade-up">
+               <div class="flip-inner">
+                  <div class="flip-front">
+                     <h3>Automated Parking</h3>
+                     <p style="margin-top:1rem; color:var(--text-muted);">Hassle-free arrivals.</p>
+                  </div>
+                  <div class="flip-back">
+                     <p>State-of-the-art robotic stacking ensures your vehicle is parked safely and retrieved in seconds.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="flip-card fade-up">
+               <div class="flip-inner">
+                  <div class="flip-front">
+                     <h3>Sky Lounge</h3>
+                     <p style="margin-top:1rem; color:var(--text-muted);">Elevated evenings.</p>
+                  </div>
+                  <div class="flip-back">
+                     <p>Enjoy bespoke cocktails with a 360-degree panoramic view of the glowing city skyline.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="flip-card fade-up">
+               <div class="flip-inner">
+                  <div class="flip-front">
+                     <h3>Zen Garden</h3>
+                     <p style="margin-top:1rem; color:var(--text-muted);">Urban sanctuary.</p>
+                  </div>
+                  <div class="flip-back">
+                     <p>A beautifully landscaped acre of tranquility featuring acoustic dampening and exotic flora.</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+    </section>
+
+    <!-- 5. Circular SVG Progress Stats -->
+    <section style="background: var(--surface-color);">
+      <div class="container content-grid">
+         <div class="fade-up">
+            <h2>The Standard<br>of Excellence</h2>
+            <p style="color: var(--text-muted); margin-top: 1.5rem;">We believe numbers speak louder than words when it comes to delivering a world-class lifestyle.</p>
+         </div>
+         <div style="display: flex; gap: 4rem; flex-wrap: wrap; justify-content: center;">
+            <div class="circ-stat fade-up">
+               <svg class="circ-svg">
+                  <circle class="circ-bg" cx="80" cy="80" r="70"/>
+                  <circle class="circ-progress" id="circ-1" cx="80" cy="80" r="70" data-val="100"/>
+               </svg>
+               <span class="circ-val circ-num-1">0</span>
+               <p style="margin-top: 1rem;">Green Energy</p>
+            </div>
+            <div class="circ-stat fade-up">
+               <svg class="circ-svg">
+                  <circle class="circ-bg" cx="80" cy="80" r="70"/>
+                  <circle class="circ-progress" id="circ-2" cx="80" cy="80" r="70" data-val="100"/>
+               </svg>
+               <span class="circ-val circ-num-2">0</span>
+               <p style="margin-top: 1rem;">Occupancy</p>
+            </div>
+         </div>
+      </div>
+    </section>
+
+    <!-- 6. Liquid Accordion FAQ -->
+    <section>
+       <div class="container" style="max-width: 800px;">
+          <h2 class="fade-up" style="text-align: center; margin-bottom: 4rem;">Frequently Asked</h2>
+          
+          <div class="accordion fade-up">
+             <div class="accordion-item">
+                <div class="accordion-header">What are the maintenance fees? <span>+</span></div>
+                <div class="accordion-content">Our comprehensive maintenance covers 24/7 security, landscaping, valet services, and full access to the wellness oasis. Fees are determined by unit square footage.</div>
+             </div>
+             <div class="accordion-item">
+                <div class="accordion-header">Is there EV charging available? <span>+</span></div>
+                <div class="accordion-content">Yes, every parking bay is pre-wired for high-speed Level 2 EV charging, fully integrated into the smart grid.</div>
+             </div>
+             <div class="accordion-item">
+                <div class="accordion-header">Can I customize the interiors? <span>+</span></div>
+                <div class="accordion-content">Absolutely. Buyers who secure their residence during the pre-construction phase have access to our in-house design atelier for custom finishes.</div>
+             </div>
+          </div>
+       </div>
+    </section>
+
   </main>
 
   <footer style="padding: 4rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
@@ -357,46 +337,36 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // SVG Route setup
+      const pathEl = document.getElementById('route-path');
+      if (pathEl) {
+         // anime.setDashoffset calculates the length of the path and sets it
+         pathEl.style.strokeDasharray = anime.setDashoffset(pathEl);
+         pathEl.style.strokeDashoffset = anime.setDashoffset(pathEl);
+      }
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      // Hero Scrub Logic
       const video = document.getElementById("hero-video");
       const heroSpacer = document.querySelector(".hero-spacer");
-      
       const panelIntro = document.getElementById("panel-intro");
       const panelArch = document.getElementById("panel-architecture");
       const panelBento = document.getElementById("panel-bento");
 
-      // Initial state setups for anime.js text reveal
       anime.set('#arch-text span', { opacity: 0, translateY: 40, rotateX: -40 });
       anime.set('.bento-item', { opacity: 0, translateY: 80, scale: 0.95 });
-      
-      // Check for reduced motion
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      // Magnetic Button interaction
-      const magWrap = document.querySelector('.magnetic-btn-wrap');
-      const magBtn = document.querySelector('.cta-button');
-      if (magWrap && !prefersReducedMotion) {
-        magWrap.addEventListener('mousemove', (e) => {
-           const rect = magWrap.getBoundingClientRect();
-           const x = e.clientX - rect.left - rect.width / 2;
-           const y = e.clientY - rect.top - rect.height / 2;
-           anime({ targets: magBtn, translateX: x * 0.4, translateY: y * 0.4, duration: 150, easing: 'easeOutQuad' });
-        });
-        magWrap.addEventListener('mouseleave', () => {
-           anime({ targets: magBtn, translateX: 0, translateY: 0, duration: 800, easing: 'easeOutElastic(1, .5)' });
-        });
-      }
 
       if (prefersReducedMotion) {
-        // Reduced motion: skip scrub, play video silently
-        video.autoplay = true; video.loop = true; video.play().catch(e => console.log("Autoplay prevented:", e));
-        anime.set('.fade-up, .card', { opacity: 1, translateY: 0 });
+        video.autoplay = true; video.loop = true; video.play().catch(e => {});
+        video.style.transform = "scale(1)";
+        anime.set('.fade-up', { opacity: 1, translateY: 0 });
       } else {
         video.addEventListener('loadeddata', () => {
           let targetTime = 0; let currentTime = 0; const lerpFactor = 0.12;
           video.pause();
 
-          let archRevealed = false;
-          let bentoRevealed = false;
+          let archRevealed = false; let bentoRevealed = false;
 
           const updateVideoTime = () => {
             currentTime += (targetTime - currentTime) * lerpFactor;
@@ -412,22 +382,17 @@
             const totalScroll = rect.height - window.innerHeight;
             let progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
             
-            if (Number.isFinite(video.duration)) {
-              targetTime = progress * video.duration;
-            }
+            if (Number.isFinite(video.duration)) { targetTime = progress * video.duration; }
 
-            // Panel 1: 0 to 0.25
             if (progress < 0.25) {
                const p = Math.min(1, progress / 0.2);
                panelIntro.style.opacity = 1 - p*2;
                panelIntro.style.transform = `translate(-50%, calc(-50% - ${p * 50}px))`;
                panelIntro.classList.add('active');
             } else {
-               panelIntro.style.opacity = 0;
-               panelIntro.classList.remove('active');
+               panelIntro.style.opacity = 0; panelIntro.classList.remove('active');
             }
 
-            // Panel 2: 0.3 to 0.55
             if (progress >= 0.25 && progress < 0.6) {
                const pIn = Math.min(1, (progress - 0.25) / 0.05);
                const pOut = Math.max(0, (progress - 0.5) / 0.1);
@@ -440,15 +405,13 @@
                  anime({ targets: '#arch-text span', opacity: [0, 1], translateY: [40, 0], rotateX: [-40, 0], delay: anime.stagger(80), easing: 'easeOutQuint', duration: 1000 });
                }
             } else {
-               panelArch.style.opacity = 0;
-               panelArch.classList.remove('active');
+               panelArch.style.opacity = 0; panelArch.classList.remove('active');
                if (progress < 0.2 || progress > 0.65) {
-                 archRevealed = false; // Reset for scrolling back
+                 archRevealed = false; 
                  anime.set('#arch-text span', { opacity: 0, translateY: 40, rotateX: -40 });
                }
             }
 
-            // Panel 3: 0.6 to 0.95
             if (progress >= 0.55) {
                const pIn = Math.min(1, (progress - 0.55) / 0.1);
                panelBento.style.opacity = pIn;
@@ -460,8 +423,7 @@
                  anime({ targets: '.bento-item', opacity: [0, 1], translateY: [80, 0], scale: [0.95, 1], delay: anime.stagger(100), easing: 'easeOutElastic(1, .8)', duration: 1200 });
                }
             } else {
-               panelBento.style.opacity = 0;
-               panelBento.classList.remove('active');
+               panelBento.style.opacity = 0; panelBento.classList.remove('active');
                if (progress < 0.5) {
                  bentoRevealed = false;
                  anime.set('.bento-item', { opacity: 0, translateY: 80, scale: 0.95 });
@@ -469,40 +431,145 @@
             }
           }, { passive: true });
         });
-        
         setTimeout(() => { if (video.readyState >= 1) video.dispatchEvent(new Event('loadeddata')); }, 1000);
       }
 
-      // Intersection Observers for lower page sections
-      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+      // Magnetic Button
+      const magWrap = document.querySelector('.magnetic-btn-wrap');
+      const magBtn = document.querySelector('.cta-button');
+      if (magWrap && !prefersReducedMotion) {
+        magWrap.addEventListener('mousemove', (e) => {
+           const rect = magWrap.getBoundingClientRect();
+           const x = e.clientX - rect.left - rect.width / 2;
+           const y = e.clientY - rect.top - rect.height / 2;
+           anime({ targets: magBtn, translateX: x * 0.4, translateY: y * 0.4, duration: 150, easing: 'easeOutQuad' });
+        });
+        magWrap.addEventListener('mouseleave', () => {
+           anime({ targets: magBtn, translateX: 0, translateY: 0, duration: 800, easing: 'easeOutElastic(1, .5)' });
+        });
+      }
+
+      // Intersection Observers for SVGs and Components
+      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.2 };
+      
+      let mapAnimated = false;
+      let textAnimated = false;
+      let statsAnimated = false;
 
       if (!prefersReducedMotion) {
         const observer = new IntersectionObserver((entries, obs) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              anime({ targets: entry.target, opacity: [0, 1], translateY: [40, 0], duration: 1200, easing: 'easeOutCubic' });
-              obs.unobserve(entry.target);
+              const el = entry.target;
+              
+              // Base fade up
+              anime({ targets: el, opacity: [0, 1], translateY: [40, 0], duration: 1200, easing: 'easeOutCubic' });
+              
+              // 1. Text SVG Stroke Draw
+              if (el.id === 'svg-title-container' && !textAnimated) {
+                 textAnimated = true;
+                 anime({
+                    targets: '.svg-text-stroke',
+                    strokeDashoffset: [anime.setDashoffset, 0],
+                    easing: 'easeInOutSine',
+                    duration: 2500,
+                    direction: 'alternate',
+                    loop: false,
+                    complete: function(anim) {
+                       anime({ targets: '.svg-text-stroke', fill: '#e3c37c', duration: 1000, easing: 'easeOutSine' });
+                    }
+                 });
+              }
+
+              // 2. Map SVG Path Draw & Motion Path
+              if (el.id === 'map-svg-container' && !mapAnimated) {
+                 mapAnimated = true;
+                 const path = anime.path('#route-path');
+                 
+                 // Line Draw
+                 anime({
+                    targets: '#route-path',
+                    strokeDashoffset: [anime.setDashoffset, 0],
+                    easing: 'easeInOutSine',
+                    duration: 3000
+                 });
+                 // Dot Follow (Motion Path)
+                 anime({
+                    targets: '#travel-dot',
+                    translateX: path('x'),
+                    translateY: path('y'),
+                    easing: 'linear',
+                    duration: 3000,
+                    loop: true // loop the dot traveler
+                 });
+              }
+
+              // 3. Circular Stats
+              if (el.classList.contains('circ-stat') && !statsAnimated) {
+                 statsAnimated = true; // Trigger all at once
+                 document.querySelectorAll('.circ-progress').forEach((circ, i) => {
+                    anime({
+                       targets: circ,
+                       strokeDashoffset: [440, 0],
+                       easing: 'easeInOutSine',
+                       duration: 2000,
+                       delay: i * 200
+                    });
+                 });
+                 document.querySelectorAll('.circ-val').forEach((txt, i) => {
+                    anime({
+                       targets: txt,
+                       innerHTML: [0, 100],
+                       round: 1,
+                       easing: 'easeOutExpo',
+                       duration: 2500,
+                       delay: i * 200
+                    });
+                 });
+              }
+              
+              obs.unobserve(el);
             }
           });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-up, .card:not(.stat-card)').forEach(el => observer.observe(el));
-
-        const statObserver = new IntersectionObserver((entries, obs) => {
-           entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                 const el = entry.target;
-                 const numEl = el.querySelector('.stat__num');
-                 anime({ targets: el, opacity: [0, 1], translateY: [40, 0], duration: 1200, easing: 'easeOutCubic' });
-                 anime({ targets: numEl, innerHTML: [0, parseInt(numEl.dataset.target)], round: 1, duration: 2500, easing: 'easeOutExpo' });
-                 obs.unobserve(el);
-              }
-           });
-        }, observerOptions);
-        document.querySelectorAll('.stat-card').forEach(el => statObserver.observe(el));
-      } else {
-         document.querySelectorAll('.stat__num').forEach(el => el.innerHTML = el.dataset.target);
+        document.querySelectorAll('.fade-up, .circ-stat').forEach(el => observer.observe(el));
       }
+
+      // Accordion Logic
+      document.querySelectorAll('.accordion-header').forEach(header => {
+         header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            const isOpen = content.style.height && content.style.height !== '0px';
+            
+            // close others
+            document.querySelectorAll('.accordion-content').forEach(c => {
+               if (c !== content) anime({ targets: c, height: 0, opacity: 0, paddingBottom: 0, duration: 400, easing: 'easeOutCubic' });
+            });
+            
+            if (!isOpen) {
+               content.style.display = 'block';
+               const height = content.scrollHeight + 20; // + padding
+               anime({
+                  targets: content,
+                  height: [0, height],
+                  opacity: [0, 1],
+                  paddingBottom: [0, 20],
+                  duration: 600,
+                  easing: 'easeOutElastic(1, .8)'
+               });
+            } else {
+               anime({
+                  targets: content,
+                  height: 0,
+                  opacity: 0,
+                  paddingBottom: 0,
+                  duration: 400,
+                  easing: 'easeOutCubic'
+               });
+            }
+         });
+      });
     });
   </script>
 </body>
