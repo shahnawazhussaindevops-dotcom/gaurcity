@@ -1,978 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="Gaur City Centre, Noida — the best Airbnb apartments in Noida. One film, one skyline: the entire story of your stay, scrubbed over 32 seconds.">
-<meta name="theme-color" content="#0a0705">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23e3c27f'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='17' font-style='italic' text-anchor='middle' fill='%23241803'%3EG%3C/text%3E%3C/svg%3E">
-<title>Gaur City Centre · The story of your stay, in film</title>
-<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
-<script>document.documentElement.classList.add("js");</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<style>
-/* ============ TOKENS ============ */
-:root{
-  --bg:#0a0805; --bg-2:#0e0b07; --bg-elev:#15100a;
-  --glass:rgba(255,239,212,.045); --glass-2:rgba(255,239,212,.075);
-  --glass-strong:rgba(255,239,212,.13);
-  --hairline:rgba(255,239,212,.08); --hairline-hi:rgba(255,239,212,.18);
-  --text:#f7f1e6; --muted:#cabfa7; --faint:#94876d;
-  --accent:#e3c37c; --accent-soft:#f7e3b0; --accent-ink:#241a04; --sky:#d9c8a8; --sun:#f0c98a; --coral:#e09670;
-  --glow:rgba(227,195,124,.22); --glow-strong:rgba(227,195,124,.38);
-  --ease-out:cubic-bezier(.16,1,.3,1);
-  --ease-spring:cubic-bezier(.34,1.56,.64,1);
-  --ease:cubic-bezier(.23,1,.32,1);
-  --font-display:"Fraunces","Instrument Serif",Georgia,serif;
-  --font-body:"Inter","Segoe UI",system-ui,sans-serif;
-  --font-serif:"Instrument Serif",Georgia,serif;
-  --r-lg:28px; --r-md:18px; --r-sm:12px;
-  --safe-x:max(1.15rem,env(safe-area-inset-left,0px),env(safe-area-inset-right,0px));
-  --header-h:64px;
-  --noise-opacity:.03;
-}
-*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
-html{ scroll-behavior:smooth; }
-body{
-  background:var(--bg); color:var(--text);
-  font-family:var(--font-body);
-  font-size:clamp(1rem,.4vw + .84rem,1.125rem);
-  line-height:1.62; overflow-x:hidden;
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-}
-body::before{ content:""; position:fixed; inset:0; z-index:-1; background:
-  radial-gradient(ellipse 60% 50% at 50% 0%,rgba(227,195,124,.075),transparent 60%),
-  radial-gradient(ellipse 50% 40% at 100% 100%,rgba(217,201,168,.05),transparent 50%),
-  var(--bg); }
-::selection{ background:var(--accent); color:var(--accent-ink); }
-img{ display:block; max-width:100%; height:auto; }
-a{ color:inherit; text-decoration:none; }
-:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; border-radius:8px; }
-ul{ list-style:none; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaur City Centre - Premium Apartments</title>
+  <meta name="description" content="Experience architectural brilliance and elevated living at Gaur City Centre.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0a0805;
+      --surface-color: #15100a;
+      --accent-color: #e3c37c;
+      --text-color: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.7);
+    }
 
-/* ============ NOISE & AURORA ============ */
-.noise{
-  position:fixed; inset:0; z-index:0; pointer-events:none;
-  opacity:var(--noise-opacity);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode:overlay;
-}
-.aurora{
-  position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
-  mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,black 40%,transparent 100%);
-}
-.aurora__blob{
-  position:absolute; border-radius:50%; filter:blur(120px); opacity:.35;
-  animation:aurora-drift 24s ease-in-out infinite;
-}
-.aurora__blob:nth-child(1){ width:60vmax; height:60vmax; top:-20vmax; left:-10vmax; background:radial-gradient(circle at 30% 30%,var(--accent),transparent 70%); animation-delay:0s; }
-.aurora__blob:nth-child(2){ width:50vmax; height:50vmax; bottom:-15vmax; right:-10vmax; background:radial-gradient(circle at 70% 70%,var(--sky),transparent 70%); animation-delay:-8s; }
-.aurora__blob:nth-child(3){ width:40vmax; height:40vmax; top:20vmax; right:5vmax; background:radial-gradient(circle at 50% 50%,var(--coral),transparent 70%); opacity:.22; animation-delay:-16s; }
-@keyframes aurora-drift{
-  0%,100%{ transform:translate(0,0) scale(1); }
-  25%{ transform:translate(3vmax,-2vmax) scale(1.05); }
-  50%{ transform:translate(-2vmax,3vmax) scale(.98); }
-  75%{ transform:translate(2vmax,2vmax) scale(1.02); }
-}
-@media (prefers-reduced-motion:reduce){
-  .aurora__blob{ animation:none; }
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* ============ TYPE ============ */
-h1,h2,h3,.display{ font-family:var(--font-display); font-weight:500; letter-spacing:-.02em; text-wrap:balance; }
-h1{ font-size:clamp(2.6rem,7.2vw + .4rem,7.2rem); line-height:.98; }
-h2{ font-size:clamp(2rem,4.6vw + .3rem,4.4rem); line-height:1.05; }
-h3{ font-size:clamp(1.25rem,1.7vw + .3rem,1.9rem); line-height:1.15; }
-.eyebrow{
-  font-family:var(--font-display); font-weight:600;
-  font-size:clamp(.66rem,.2vw + .56rem,.78rem);
-  letter-spacing:.32em; text-transform:uppercase; color:var(--accent);
-  display:inline-flex; align-items:center; justify-content:center; gap:.7rem;
-}
-.eyebrow::before,.eyebrow::after{ content:""; width:22px; height:1px; background:var(--accent); opacity:.7; }
-.serif{ font-family:var(--font-serif); font-style:italic; font-weight:400; letter-spacing:0; }
-.grad{
-  background:linear-gradient(100deg,#e8ca85,var(--accent-soft) 50%,var(--sky));
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-.lead{ color:var(--muted); font-size:clamp(1rem,.45vw + .88rem,1.22rem); line-height:1.68; max-width:33em; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ============ BUTTONS ============ */
-.btn{
-  --pad:max(1.05rem,2.4vw);
-  display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
-  min-height:clamp(48px,3.4vw + 32px,56px); min-width:48px; padding:0 var(--pad);
-  border-radius:999px; border:0; position:relative; overflow:hidden; isolation:isolate;
-  background:linear-gradient(135deg,var(--accent-soft) 0%,var(--accent) 55%,#c9a75e 100%); color:var(--accent-ink);
-  font-family:var(--font-display); font-weight:600;
-  font-size:clamp(.94rem,.3vw + .8rem,1.04rem); letter-spacing:.01em;
-  box-shadow:0 10px 34px -10px var(--glow), inset 0 1px 0 rgba(255,255,255,.55);
-  transition:transform 160ms var(--ease-out), box-shadow .3s var(--ease), background .3s var(--ease);
-}
-.btn::before{
-  content:""; position:absolute; inset:0; z-index:-1;
-  background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.65) 50%,transparent 75%);
-  transform:translateX(-130%); transition:transform .7s var(--ease);
-}
-.btn:hover::before{ transform:translateX(130%); }
-.btn:hover{ transform:translateY(-3px); box-shadow:0 20px 50px -15px var(--glow-strong); }
-.btn:active{ transform:translateY(0) scale(.96); transition-duration:100ms; }
-.btn--ghost{
-  background:rgba(255,239,212,.05); color:var(--text);
-  box-shadow:inset 0 0 0 1px var(--hairline-hi);
-  -webkit-backdrop-filter:blur(16px) saturate(150%); backdrop-filter:blur(16px) saturate(150%);
-}
-.btn--ghost:hover{ color:var(--accent-soft); box-shadow:inset 0 0 0 1px var(--accent), 0 8px 30px -8px var(--glow); background:rgba(255,239,212,.09); }
-.btn__ar{ transition:transform 300ms var(--ease-spring); }
-.btn:hover .btn__ar{ transform:translateX(6px); }
+    h1, h2, h3, .display {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
 
-/* ============ MAGNETIC BUTTON ============ */
-.btn--magnetic{ --mag-strength:40px; }
-.btn--magnetic .btn__txt{ display:inline-block; will-change:transform; }
+    /* Fluid typography */
+    h1 { font-size: clamp(2.5rem, 6vw + 1rem, 6rem); }
+    h2 { font-size: clamp(2rem, 4vw + 1rem, 4rem); }
+    p { font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); line-height: 1.6; }
 
-/* ============ GLASS ============ */
-.glass{
-  position:relative;
-  background:linear-gradient(135deg,var(--glass) 0%,var(--glass-2) 100%);
-  border:1px solid var(--hairline);
-  border-radius:var(--r-md);
-  -webkit-backdrop-filter:blur(24px) saturate(180%); backdrop-filter:blur(24px) saturate(180%);
-  box-shadow:0 30px 80px -40px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(255,255,255,.02);
-}
-.glass--strong{ background:var(--glass-strong); border-color:var(--hairline-hi); box-shadow:0 40px 100px -50px rgba(0,0,0,.95), inset 0 1px 0 rgba(255,255,255,.12); }
+    /* Accessibility focus */
+    :focus-visible {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 4px;
+    }
 
-/* ============ HEADER (persistent material) ============ */
-.site-header{
-  position:fixed; inset:0 0 auto 0; z-index:60; height:var(--header-h);
-  padding:max(env(safe-area-inset-top,0px),.6rem) var(--safe-x) .5rem;
-  background:linear-gradient(180deg,rgba(10,8,5,.68),rgba(10,8,5,.2) 65%,transparent);
-  -webkit-backdrop-filter:blur(18px) saturate(160%); backdrop-filter:blur(18px) saturate(160%);
-  -webkit-mask:linear-gradient(180deg,#000 82%,transparent); mask:linear-gradient(180deg,#000 82%,transparent);
-}
-.nav{ display:flex; align-items:center; justify-content:space-between; gap:1rem; height:40px; }
-.brand{ display:inline-flex; align-items:center; gap:.7rem; font-family:var(--font-display); font-weight:600; font-size:clamp(.9rem,.4vw+.7rem,1.02rem); letter-spacing:.06em; min-height:44px; }
-.brand-mark{
-  width:29px; height:29px; border-radius:9px; flex:0 0 29px;
-  background:linear-gradient(135deg,var(--accent-soft),var(--accent));
-  display:grid; place-items:center; color:var(--accent-ink); font-family:var(--font-serif); font-style:italic; font-size:1.02rem; font-weight:400;
-  box-shadow:0 0 22px -4px var(--glow), inset 0 1px 0 rgba(255,255,255,.5);
-}
-.nav-links{ display:flex; align-items:center; gap:clamp(0,2.4vw,1.4rem); list-style:none; }
-.nav-links a{
-  display:inline-flex; align-items:center; min-height:44px; padding:0 .35rem;
-  font-size:.92rem; color:var(--muted); position:relative; transition:color .2s;
-}
-.nav-links a::after{
-  content:""; position:absolute; left:.35rem; right:.35rem; bottom:.5rem; height:1px;
-  background:var(--accent); transform:scaleX(0); transform-origin:left;
-  transition:transform 350ms var(--ease-out);
-}
-.nav-links a:hover{ color:var(--text); }
-.nav-links a:hover::after{ transform:scaleX(1); }
-.nav-cta{
-  display:inline-flex; align-items:center; min-height:44px;
-  padding:0 clamp(.75rem,1.6vw,1.1rem); border-radius:999px;
-  border:1px solid var(--hairline-hi); font-size:.92rem; font-weight:600;
-  background:rgba(255,239,212,.04); transition:border-color .2s,color .2s;
-}
-.nav-cta:hover{ border-color:var(--accent); color:var(--accent-soft); }
-@media (max-width:820px){ .nav-links{ display:none; } }
-.scrollprog{ position:absolute; left:0; right:0; bottom:0; height:2px; background:rgba(255,239,212,.08); }
-.scrollprog i{ display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--sky)); box-shadow:0 0 12px var(--glow); }
+    /* Header */
+    .site-header {
+      position: fixed; 
+      top: 0; 
+      width: 100%; 
+      z-index: 50; 
+      padding: 2rem; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      pointer-events: none;
+    }
+    
+    .site-logo {
+      font-family: 'Fraunces', serif; 
+      font-size: 1.5rem; 
+      color: var(--accent-color); 
+      pointer-events: auto;
+    }
 
-/* ============ THE FILM ============ */
-.film{ position:relative; }
-@supports (position:sticky){
-  .film__scroller{ height:1150vh; }
-  .film__pin{ position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; }
-}
-.film__video{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; background:#000; will-change:transform;
-}
-.film__canvas{ display:none; }
-.film--sprite .film__canvas{ display:block; }
-.film--sprite .film__video{ display:none; }
-.film__veil{
-  position:absolute; inset:0; pointer-events:none;
-  background:
-    radial-gradient(115% 92% at 50% 45%,transparent 30%,rgba(10,8,5,.62) 100%),
-    linear-gradient(180deg,rgba(10,8,5,.56),transparent 22%,transparent 66%,var(--bg) 97%);
-}
-.film__veil-hi{ /* extra scrim pulled up when a scene is showing */
-  position:absolute; inset:0; pointer-events:none;
-  background:radial-gradient(90% 80% at 50% 50%,rgba(10,8,5,.3),transparent 75%);
-  opacity:0; transition:opacity .5s linear;
-}
-.film__grain{
-  position:absolute; inset:0; pointer-events:none; opacity:.07; mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+    .site-nav {
+      pointer-events: auto;
+    }
 
-/* ============ SCENES ============ */
-.scenes{ position:absolute; inset:0; z-index:2; }
-.scene{
-  position:absolute; inset:0;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
-  padding:calc(env(safe-area-inset-top,0px) + var(--header-h)) var(--safe-x) calc(env(safe-area-inset-bottom,0px) + 2.6rem);
-  opacity:0; visibility:hidden; pointer-events:none;
-  will-change:opacity,transform;
-}
-.scene__inner{
-  display:flex; flex-direction:column; align-items:center; text-align:center; gap:clamp(.9rem,2vw,1.4rem);
-  width:min(100%,64rem); will-change:transform;
-}
-.scene--left .scene__inner{ align-items:flex-start; text-align:left; width:min(100%,46rem); }
-.gallery__note-holder{ margin-top:.6rem; }
+    .site-nav a {
+      color: white; 
+      text-decoration: none; 
+      margin-left: 2rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
 
-/* hero */
-.scene--hero .scene__inner{ gap:clamp(1rem,2.2vw,1.5rem); }
-.scene--hero h1{ max-width:14em; margin-inline:auto; }
-.scene--hero .lead{ margin-inline:auto; }
-.hero__cta-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-top:.3rem; }
-.hero__trust{
-  display:inline-flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.7rem;
-  font-size:clamp(.78rem,.3vw + .66rem,.9rem); color:var(--muted);
-}
-.hero__stars{ color:var(--accent); letter-spacing:.12em; }
-.hero__sep{ width:1px; height:13px; background:var(--hairline-hi); }
-.hero__badge{
-  display:inline-flex; align-items:center; gap:.5rem;
-  padding:.42rem .85rem; border-radius:999px;
-  border:1px solid rgba(227,195,124,.4); background:rgba(227,195,124,.1);
-  font-size:clamp(.64rem,.2vw + .58rem,.74rem); letter-spacing:.14em; text-transform:uppercase; color:var(--accent);
-}
-.hero__badge::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent); animation:blip 2.4s ease-in-out infinite; }
-@keyframes blip{ 0%,100%{opacity:1} 50%{opacity:.35} }
-.hero__h1-line{ display:block; overflow:hidden; }
-.scene--hero .scene__inner > *{ will-change:transform,opacity; }
+    .site-nav a:hover {
+      color: var(--accent-color);
+    }
 
-/* ============ ANIMATED COMPONENTS ============ */
+    /* Spacer for hero scrub - increased for multiple panels */
+    .hero-spacer {
+      height: 600vh;
+      position: relative;
+    }
 
-/* Floating cards with parallax */
-.float-card{
-  transform-style:preserve-3d; perspective:1000px;
-  transition:transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
-}
-.float-card:hover{ transform:translateY(-8px) rotateX(2deg) rotateY(-2deg); box-shadow:0 40px 80px -20px var(--glow-strong); }
-.float-card--stat:hover{ transform:translateY(-6px) rotateX(.5deg); box-shadow:0 30px 70px -25px var(--glow); }
+    .hero-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px; /* For 3D effects */
+    }
 
-/* Text reveal animation */
-.text-reveal{ overflow:hidden; }
-.text-reveal__line{ display:block; transform:translateY(110%); opacity:0; transition:transform 800ms var(--ease-out), opacity 600ms var(--ease-out); }
-.text-reveal.is-visible .text-reveal__line{ transform:translateY(0); opacity:1; }
-.text-reveal__line:nth-child(1){ transition-delay:0ms; }
-.text-reveal__line:nth-child(2){ transition-delay:100ms; }
-.text-reveal__line:nth-child(3){ transition-delay:200ms; }
-.text-reveal__line:nth-child(4){ transition-delay:300ms; }
+    /* Cinematic vignette & text-contrast overlay */
+    .hero-sticky::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(10,8,5,0.1) 0%, rgba(10,8,5,0.7) 100%), linear-gradient(to bottom, rgba(10,8,5,0.7) 0%, rgba(10,8,5,0.2) 50%, rgba(10,8,5,0.8) 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-/* Gradient text animated */
-.grad-anim{
-  background:linear-gradient(100deg,var(--accent),var(--accent-soft) 30%,var(--sky) 60%,var(--sun) 100%);
-  background-size:300% 300%; -webkit-background-clip:text; background-clip:text; color:transparent;
-  animation:grad-shift 6s ease-in-out infinite;
-}
-@keyframes grad-shift{
-  0%,100%{ background-position:0% 50%; }
-  50%{ background-position:100% 50%; }
-}
+    #hero-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.9;
+    }
 
-/* Magnetic hover elements */
-.magnetic{ position:relative; transform-style:preserve-3d; will-change:transform; transition:transform 120ms linear; }
-.magnetic__inner{ will-change:transform; }
+    /* --- OVERLAY PANELS --- */
+    .hero-overlay-panel {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 100%; max-width: 1200px; padding: 0 1rem;
+      text-align: center; z-index: 10;
+      opacity: 0; pointer-events: none;
+      will-change: opacity, transform;
+    }
 
-/* Scroll progress ring */
-.scroll-ring{ position:relative; width:56px; height:56px; }
-.scroll-ring__bg{ fill:none; stroke:var(--hairline); stroke-width:2; }
-.scroll-ring__fg{ fill:none; stroke:var(--accent); stroke-width:2; stroke-linecap:round; stroke-dasharray:160; stroke-dashoffset:160; transition:stroke-dashoffset 160ms linear; filter:drop-shadow(0 0 8px var(--glow)); }
+    .hero-overlay-panel.active { pointer-events: auto; }
+    
+    #panel-intro { opacity: 1; pointer-events: auto; }
 
-/* Floating particles */
-.particles{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }
-.particle{ position:absolute; width:4px; height:4px; border-radius:50%; background:var(--accent); opacity:0; filter:blur(1px); animation:particle-rise 8s ease-in-out infinite; }
-@keyframes particle-rise{
-  0%{ transform:translateY(100vh) scale(0); opacity:0; }
-  10%{ opacity:.6; }
-  90%{ opacity:.6; }
-  100%{ transform:translateY(-20vh) scale(1); opacity:0; }
-}
+    #panel-intro p.subhead {
+      color: var(--accent-color); font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 1rem; font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
+    }
 
-/* Animated counter with easing */
-.counter{ font-variant-numeric:tabular-nums; }
+    /* Magnetic Button */
+    .magnetic-btn-wrap {
+      display: inline-block; padding: 2rem; cursor: pointer;
+    }
 
-/* Reveal on scroll base */
-.reveal{ opacity:0; transform:translateY(30px); transition:opacity 800ms var(--ease-out), transform 800ms var(--ease-out); }
-.reveal.is-visible{ opacity:1; transform:translateY(0); }
+    .cta-button {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface-color); color: var(--accent-color);
+      border: 1px solid rgba(227, 195, 124, 0.3); padding: 1rem 2rem; border-radius: 9999px;
+      text-decoration: none; font-weight: 500; font-size: 1.125rem;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      pointer-events: none; /* Let wrap handle hover */
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    
+    .magnetic-btn-wrap:hover .cta-button {
+      background: var(--accent-color); color: var(--bg-color);
+    }
 
-/* Stagger children */
-.stagger > *{ opacity:0; transform:translateY(20px); transition:opacity 600ms var(--ease-out), transform 600ms var(--ease-out); }
-.stagger.is-visible > *:nth-child(1){ transition-delay:0ms; opacity:1; transform:translateY(0); }
-.stagger.is-visible > *:nth-child(2){ transition-delay:80ms; opacity:1; transform:translateY(0); }
-.stagger.is-visible > *:nth-child(3){ transition-delay:160ms; opacity:1; transform:translateY(0); }
-.stagger.is-visible > *:nth-child(4){ transition-delay:240ms; opacity:1; transform:translateY(0); }
-.stagger.is-visible > *:nth-child(5){ transition-delay:320ms; opacity:1; transform:translateY(0); }
-.stagger.is-visible > *:nth-child(6){ transition-delay:400ms; opacity:1; transform:translateY(0); }
+    /* Text Reveal Panel */
+    #arch-text span {
+      display: inline-block;
+      white-space: pre;
+    }
 
-/* Glowing border on focus/hover */
-.glow-border{ position:relative; }
-.glow-border::before{
-  content:""; position:absolute; inset:-2px; border-radius:inherit;
-  background:linear-gradient(135deg,var(--accent),var(--sky),var(--accent));
-  background-size:200% 200%; opacity:0; filter:blur(8px);
-  transition:opacity .3s var(--ease); animation:grad-shift 4s ease infinite;
-  z-index:-1;
-}
-.glow-border:hover::before, .glow-border:focus-within::before{ opacity:1; }
+    /* Bento Grid */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 220px);
+      gap: 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-/* Marquee enhanced */
-.marquee2{ overflow:hidden; position:relative; }
-.marquee2__track{ display:flex; animation:marquee2 30s linear infinite; }
-.marquee2__track:hover{ animation-play-state:paused; }
-.marquee2__item{ flex:0 0 auto; font-family:var(--font-display); font-weight:600; font-size:clamp(1rem,1.2vw+.5rem,1.6rem); letter-spacing:.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap; padding-right:clamp(2rem,5vw,4rem); transition:color .3s; }
-.marquee2__item:hover{ color:var(--accent); }
-@keyframes marquee2{ to{ transform:translateX(-50%); } }
+    .bento-item {
+      background: rgba(21, 16, 10, 0.5);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(227, 195, 124, 0.15);
+      border-radius: 24px;
+      padding: 2rem;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      text-align: left;
+      transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative; overflow: hidden;
+      opacity: 0; /* for anime.js */
+    }
 
-/* Card flip */
-.flip-card{ perspective:1000px; }
-.flip-card__inner{ position:relative; width:100%; height:100%; transition:transform 800ms var(--ease-spring); transform-style:preserve-3d; }
-.flip-card:hover .flip-card__inner{ transform:rotateY(180deg); }
-.flip-card__face{ position:absolute; inset:0; backface-visibility:hidden; display:flex; align-items:center; justify-content:center; }
-.flip-card__face--back{ transform:rotateY(180deg); }
+    .bento-item:hover {
+      border-color: rgba(227, 195, 124, 0.6);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
 
-/* Orbit elements */
-.orbit{ position:relative; }
-.orbit__item{ position:absolute; animation:orbit 20s linear infinite; }
-@keyframes orbit{ to{ transform:rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg); } }
+    /* Shimmer effect on hover */
+    .bento-item::before {
+       content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+       background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+       transform: skewX(-20deg); transition: left 0.6s ease;
+    }
+    .bento-item:hover::before { left: 150%; }
 
-/* Reduced motion */
-@media (prefers-reduced-motion:reduce){
-  .text-reveal__line, .reveal, .stagger > *, .grad-anim, .particle, .marquee2__track, .flip-card__inner, .orbit__item{ animation:none !important; transition:none !important; transform:none !important; opacity:1 !important; }
-  .float-card:hover{ transform:none; box-shadow:none; }
-  .glow-border::before{ opacity:0; }
-}
+    .bento-item:nth-child(1) { grid-column: span 2; grid-row: span 2; justify-content: space-between; }
+    .bento-item h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--accent-color); }
+    .bento-item p { font-size: 1rem; color: var(--text-muted); line-height: 1.4; }
 
-/* how it works */
-.steps{ display:grid; grid-template-columns:repeat(3,1fr); width:min(100%,60rem); gap:clamp(.7rem,1.6vw,1rem); }
-@media (max-width:820px){ .steps{ grid-template-columns:1fr; } }
-.step{ position:relative; overflow:hidden; text-align:left; padding:clamp(1.2rem,2.6vw,1.9rem); }
-.step__num{
-  font-family:var(--font-display); font-weight:600; line-height:1;
-  font-size:clamp(2.6rem,4.6vw,3.6rem); letter-spacing:-.02em;
-  color:transparent; -webkit-text-stroke:1px rgba(227,195,124,.6); opacity:.75;
-}
-.step h3{ margin:.9rem 0 .5rem; }
-.step .lead{ font-size:.98rem; }
+    /* Content sections */
+    section {
+      position: relative; background: var(--bg-color); z-index: 20; padding: 8rem 2rem;
+    }
+    .container { max-width: 1440px; margin: 0 auto; }
+    .content-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+    @media (min-width: 768px) { .content-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
+    
+    .card {
+      background: var(--surface-color); border-radius: 24px; padding: 3rem;
+      border: 1px solid rgba(255,255,255,0.05); opacity: 0; transform: translateY(40px);
+    }
+    .card-title { color: var(--accent-color); margin-bottom: 1rem; font-size: 1.5rem; }
+    .fade-up { opacity: 0; transform: translateY(40px); }
 
-/* at a glance — stat cards */
-.stats{ display:grid; grid-template-columns:repeat(4,1fr); width:min(100%,56rem); gap:clamp(.7rem,1.6vw,1rem); }
-@media (max-width:820px){ .stats{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:420px){ .stats{ grid-template-columns:1fr; } }
-.stat{
-  position:relative; overflow:hidden; text-align:left;
-  padding:clamp(1.2rem,2.2vw,1.7rem);
-  display:flex; flex-direction:column; gap:.45rem;
-}
-.stat__num{
-  font-family:var(--font-display); font-weight:500;
-  font-size:clamp(2.4rem,4vw,3.4rem); line-height:1; letter-spacing:-.02em;
-  color:var(--accent-soft);
-}
-.stat__num u{ font-family:var(--font-body); font-weight:600; font-size:.5em; letter-spacing:.06em; color:var(--faint); text-decoration:none; }
-.stat__label{ color:var(--muted); font-size:clamp(.82rem,.2vw+.76rem,.94rem); line-height:1.5; }
+    /* Reduced Motion & Mobile */
+    @media (max-width: 900px) {
+      .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .bento-item { min-height: 150px; }
+      .bento-item:nth-child(1) { grid-column: span 1; grid-row: span 1; }
+    }
 
-/* the stay */
-.scene--stay .scene__inner{ width:min(100%,62rem); display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(1.4rem,3.5vw,2.6rem); text-align:left; align-items:center; }
-@media (max-width:820px){ .scene--stay .scene__inner{ grid-template-columns:1fr; text-align:center; align-items:center; } .scene--stay .glass{ text-align:left; } }
-.pull{
-  border-left:2px solid var(--accent); padding-left:1.1rem;
-  font-family:var(--font-serif); font-style:italic;
-  font-size:clamp(1.2rem,1.6vw+.7rem,1.8rem); line-height:1.4;
-}
-.scene--stay .glass{ padding:clamp(1.2rem,2.4vw,1.8rem); }
-.ticks{ display:grid; gap:.65rem; }
-.ticks li{ display:flex; align-items:center; gap:.7rem; color:var(--muted); font-size:.96rem; min-height:40px; }
-.ticks svg{ flex:none; color:var(--accent); }
+    @media (max-width: 767px) {
+      .site-header { flex-direction: column; gap: 1rem; }
+      .site-nav a { margin: 0 1rem; }
+    }
 
-/* the postcard set */
-.filmstrip{ display:grid; grid-template-columns:repeat(6,minmax(92px,1fr)); width:min(100%,56rem); gap:clamp(.5rem,1.2vw,.8rem); }
-@media (max-width:560px){ .filmstrip{ grid-template-columns:repeat(3,1fr); } }
-.postcard{
-  position:relative; overflow:hidden; border-radius:12px; aspect-ratio:5/4;
-  background:#ece3ca; border:1px solid rgba(120,96,50,.35);
-  box-shadow:0 22px 44px -20px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.4);
-}
-.postcard__art{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-.postcard__cap{
-  position:absolute; inset:auto 0 0 0; z-index:2;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:.5rem .7rem;
-  font-size:.58rem; font-weight:600; letter-spacing:.11em; text-transform:uppercase;
-  color:#3a2f1a;
-  background:linear-gradient(180deg,rgba(236,227,202,0),rgba(236,227,202,.96) 55%);
-}
-.postcard__n{ font-family:var(--font-display); color:#a9842f; font-weight:600; font-size:.68rem; letter-spacing:0; }
-.postcard__stamp{
-  position:absolute; top:.5rem; right:.5rem; z-index:2;
-  width:2rem; height:2.4rem; border-radius:4px;
-  border:1.5px dashed rgba(58,47,26,.5);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  font-family:var(--font-display); font-size:.45rem; letter-spacing:.05em; color:#3a2f1a; line-height:1;
-  background:radial-gradient(circle at 50% 42%,rgba(169,132,47,.24),transparent 72%);
-}
-.postcard__stamp b{ font-size:.85rem; color:#a9842f; font-weight:600; margin-top:.12rem; }
-
-/* closing CTA scene */
-.scene--cta .scene__inner{ gap:clamp(1rem,2.2vw,1.5rem); }
-.scene--cta .lead{ margin-inline:auto; }
-.cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem; margin-top:.3rem; }
-.cta-tr{
-  display:flex; justify-content:center; flex-wrap:wrap; gap:.5rem 1.4rem;
-  color:var(--faint); font-size:.88rem; margin-top:.4rem;
-}
-.cta-tr span{ display:inline-flex; align-items:center; gap:.5rem; }
-.cta-tr svg{ color:var(--accent); }
-
-/* chrome: chapter, hint, bar */
-.film__chapter{
-  position:absolute; right:var(--safe-x); top:50%; translate:0 -50%; z-index:3;
-  display:flex; flex-direction:column; gap:.4rem; align-items:flex-end;
-  font-family:var(--font-display); font-weight:500;
-  font-size:clamp(.66rem,.2vw+.58rem,.78rem); letter-spacing:.22em; color:var(--faint); text-transform:uppercase;
-}
-.film__chapter i{ font-style:normal; color:var(--accent-soft); }
-@media (max-width:900px){ .film__chapter{ display:none; } }
-.film__hint{
-  position:absolute; left:50%; translate:-50% 0; z-index:3;
-  bottom:calc(env(safe-area-inset-bottom,0px) + 1.2rem);
-  display:inline-flex; flex-direction:column; align-items:center; gap:.45rem;
-  font-size:clamp(.64rem,.2vw+.56rem,.72rem); color:var(--faint);
-  letter-spacing:.26em; text-transform:uppercase;
-}
-.film__hint b{ width:1px; height:30px; background:linear-gradient(180deg,var(--accent),transparent); animation:scrollline 1.8s var(--ease) infinite; }
-@keyframes scrollline{ 0%{transform:scaleY(0); transform-origin:top} 45%{transform:scaleY(1); transform-origin:top} 55%{transform:scaleY(1); transform-origin:bottom} 100%{transform:scaleY(0); transform-origin:bottom} }
-.film__bar{ position:absolute; inset:auto 0 0 0; height:3px; z-index:3; background:rgba(255,239,212,.08); }
-.film__bar span{ display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-soft),var(--sky)); box-shadow:0 0 16px var(--glow); }
-
-/* ============ FOOTER (real page end) ============ */
-.site-footer{ border-top:1px solid var(--hairline); padding:clamp(2.6rem,5vw,4rem) var(--safe-x); background:linear-gradient(180deg,var(--bg),var(--bg-2)); }
-.site-footer .wrap{ width:min(100%,78rem); margin-inline:auto; }
-.footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:clamp(1.6rem,5vw,3rem); }
-@media (max-width:760px){ .footer-grid{ grid-template-columns:1fr; } }
-.footer-grid h3{ font-family:var(--font-display); font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-bottom:.3rem; }
-.footer-grid ul{ display:grid; gap:.5rem; }
-.footer-grid a, .footer-grid .addr{ color:var(--muted); font-size:.94rem; transition:color .2s; display:inline-flex; align-items:center; min-height:44px; }
-.footer-grid a:hover{ color:var(--accent-soft); }
-.footer-bottom{
-  margin-top:clamp(1.8rem,4vw,2.6rem); padding-top:1.4rem; border-top:1px solid var(--hairline);
-  display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; color:var(--faint); font-size:.85rem;
-}
-.footer-bottom b{ color:var(--accent); font-weight:600; }
-
-/* ============ REDUCED MOTION / TRANSPARENCY / COARSE POINTER ============ */
-@media (prefers-reduced-transparency:reduce){
-  .btn--ghost,.glass,.marquee{ -webkit-backdrop-filter:none; backdrop-filter:none; }
-  .glass,.marquee{ background:var(--glass-2); }
-}
-@media (prefers-reduced-motion:reduce){
-  html{ scroll-behavior:auto; }
-  *,*::before,*::after{ animation:none !important; transition-duration:.01ms !important; }
-  .marquee__track{ animation:none; }
-}
-@media (hover:hover) and (pointer:fine){
-  a:hover, .btn:hover, .stat:hover{ -webkit-tap-highlight-color:transparent; }
-}
-
-/* ============ LANDSCAPE/FILM FINE-TUNES ============ */
-@media (max-height:620px) and (orientation:landscape){
-  .scene{ justify-content:center; }
-  .scene__inner{ gap:.6rem; }
-  h1{ font-size:clamp(2rem,9vh,3.2rem); }
-  h2{ font-size:clamp(1.4rem,5vh,2rem); }
-  .steps,.stats{ grid-template-columns:repeat(3,1fr); width:min(100%,70rem); }
-  .hero__trust, .lead{ font-size:.9rem; }
-}
-@media (max-width:420px){
-  .step .lead{ font-size:.92rem; }
-}
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      .hero-spacer { height: 100vh; }
+      .hero-sticky { position: relative; }
+      #panel-architecture, #panel-bento { display: none; }
+      .fade-up, .card, .bento-item { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .cta-button, .magnetic-btn-wrap { transform: none !important; transition: none !important; }
+    }
+  </style>
 </head>
 <body>
-<div class="noise" aria-hidden="true"></div>
-<div class="aurora" aria-hidden="true">
-  <div class="aurora__blob"></div>
-  <div class="aurora__blob"></div>
-  <div class="aurora__blob"></div>
-</div>
-<a href="#main" class="skip" style="position:fixed;left:-9999px;top:0;z-index:200;background:var(--accent);color:var(--accent-ink);padding:.9rem 1.3rem;border-radius:9px;font-weight:600;">Skip to content</a>
 
-<header class="site-header">
-  <div class="wrap nav" style="width:min(100% - 2*var(--safe-x),78rem);margin-inline:auto;">
-    <a class="brand" href="#top" aria-label="Gaur City Centre — back to the start of the film">
-      <span class="brand-mark" aria-hidden="true">G</span>
-      GAUR&nbsp;CITY&nbsp;CENTRE
-    </a>
-    <nav aria-label="Primary">
-      <ul class="nav-links">
-        <li><a href="#stay" data-scene="stay">The stay</a></li>
-        <li><a href="#how" data-scene="how">How it works</a></li>
-        <li><a href="#frames" data-scene="frames">The film</a></li>
-      </ul>
+  <header class="site-header">
+    <div class="site-logo">Gaur City Centre</div>
+    <nav class="site-nav">
+      <a href="#discover">Discover</a>
+      <a href="#residences">Residences</a>
     </nav>
-    <a class="nav-cta" href="#book" data-scene="cta">Book a suite</a>
-  </div>
-  <div class="scrollprog" aria-hidden="true"><i id="scrollprog"></i></div>
-</header>
+  </header>
 
-<main id="main">
+  <main>
+    <div class="hero-spacer">
+      <div class="hero-sticky">
+        <video id="hero-video" src="scrub.mp4" playsinline muted preload="auto" aria-hidden="true"></video>
+        
+        <!-- Panel 1: Intro -->
+        <div class="hero-overlay-panel" id="panel-intro">
+          <p class="subhead">The New Standard</p>
+          <h1>Elevated Living<br>at Gaur City Centre</h1>
+          <div class="magnetic-btn-wrap" onclick="document.getElementById('discover').scrollIntoView({behavior:'smooth'})">
+             <div class="cta-button" aria-label="Explore Residences">Explore Residences</div>
+          </div>
+        </div>
 
-  <!-- ============ THE FILM: the whole page, scrolled over 32s of footage ============ -->
-  <section id="top" class="film film--sprite" aria-label="Gaur City Centre — one film, the full story of your stay">
-    <div class="film__scroller">
-      <div class="film__pin">
-        <canvas id="filmCanvas" class="film__video film__canvas" width="1920" height="1080" tabindex="-1" aria-hidden="true"></canvas>
-        <div class="film__veil" aria-hidden="true"></div>
-        <div class="film__veil-hi" id="veilHi" aria-hidden="true"></div>
-        <div class="film__grain" aria-hidden="true"></div>
+        <!-- Panel 2: Text Reveal -->
+        <div class="hero-overlay-panel" id="panel-architecture">
+          <h2 id="arch-text">
+            <span>A</span> <span>Vision</span> <span>in</span> <span>Glass</span> <span>and</span> <span>Steel.</span>
+          </h2>
+        </div>
 
-        <div class="scenes" id="scenes">
-
-          <!-- SCENE 0 · HERO -->
-          <section class="scene scene--hero" id="s-hero" data-start="0.000" data-end="0.140" data-onload="1" aria-label="Gaur City Centre — intro">
-            <div class="scene__inner stagger">
-              <p class="eyebrow hero__badge" style="animation:none">Now booking direct</p>
-              <h1 class="text-reveal">
-                <span class="hero__h1-line text-reveal__line">Stay above the grid,<br></span>
-                <span class="hero__h1-line text-reveal__line">in the <em class="serif grad-anim">heart of</em> Noida.</span>
-              </h1>
-              <p class="lead text-reveal"><span class="text-reveal__line">The finest Airbnb apartments at Gaur City Centre — sky-view suites, keyless check&#8209;in and the Aqua&nbsp;Line metro three minutes from your door.</span></p>
-              <div class="hero__cta-row">
-                <a class="btn btn--magnetic" href="#book" data-scene="cta"><span class="btn__txt">Book your stay</span> <span class="btn__ar" aria-hidden="true">→</span></a>
-                <a class="btn btn--ghost" href="#frames" data-scene="frames">Watch the film</a>
-              </div>
-              <div class="hero__trust" aria-label="Rated 4.9 from more than two thousand stays">
-                <span class="hero__stars" aria-hidden="true">★★★★★</span>
-                <span>4.9 · 2,100+ stays</span>
-                <span class="hero__sep" aria-hidden="true"></span>
-                <span>Founder pricing, direct</span>
-              </div>
-            </div>
-          </section>
-
-          <!-- SCENE 1 · MARQUEE -->
-          <section class="scene scene--marquee" id="s-marquee" data-start="0.155" data-end="0.238" aria-label="Highlights">
-            <div class="scene__inner stagger">
-              <p class="eyebrow">The highlights</p>
-              <div class="marquee2 glass" aria-hidden="true">
-                <div class="marquee2__track" id="marqueeTrack2">
-                  <span class="marquee2__item">Metro 3&nbsp;min</span>
-                  <span class="marquee2__item">Keyless check&#8209;in</span>
-                  <span class="marquee2__item">Skyline suites</span>
-                  <span class="marquee2__item">24/7 concierge</span>
-                  <span class="marquee2__item">Best rate direct</span>
-                  <span class="marquee2__item">Gaur City Centre</span>
-                  <span class="marquee2__item">Noida</span>
-                  <span class="marquee2__item">Metro 3&nbsp;min</span>
-                  <span class="marquee2__item">Keyless check&#8209;in</span>
-                  <span class="marquee2__item">Skyline suites</span>
-                  <span class="marquee2__item">24/7 concierge</span>
-                  <span class="marquee2__item">Best rate direct</span>
-                  <span class="marquee2__item">Gaur City Centre</span>
-                  <span class="marquee2__item">Noida</span>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- SCENE 2 · STATS -->
-          <section class="scene" id="s-stats" data-start="0.265" data-end="0.400" aria-label="At a glance">
-            <div class="scene__inner stagger">
-              <p class="eyebrow">At a glance</p>
-              <h2 class="text-reveal"><span class="text-reveal__line">Designed to be lived in,</span><br><span class="text-reveal__line"><em class="serif grad-anim">not just visited.</em></span></h2>
-              <div class="stats stagger">
-                <div class="stat glass float-card float-card--stat"><p class="stat__num counter"><span data-count="12">0</span></p><p class="stat__label">curated sky suites</p></div>
-                <div class="stat glass float-card float-card--stat"><p class="stat__num counter"><span data-count="3">0</span><u>min</u></p><p class="stat__label">walk to Aqua Line metro</p></div>
-                <div class="stat glass float-card float-card--stat"><p class="stat__num counter"><span data-count="24">0</span><u>/7</u></p><p class="stat__label">concierge, always on</p></div>
-                <div class="stat glass float-card float-card--stat"><p class="stat__num counter">1</p><p class="stat__label">address — Gaur City Centre</p></div>
-              </div>
-            </div>
-          </section>
-
-<!-- SCENE 3 · HOW IT WORKS -->
-          <section class="scene" id="s-how" data-start="0.430" data-end="0.586" aria-label="How it works">
-            <div class="scene__inner stagger">
-              <p class="eyebrow">How it works</p>
-              <h2 class="text-reveal"><span class="text-reveal__line">Three steps</span> <span class="text-reveal__line"><em class="serif grad-anim">to the sky.</em></span></h2>
-              <div class="steps stagger">
-                <article class="step glass float-card glow-border">
-                  <p class="step__num">01</p>
-                  <h3>Pick your view</h3>
-                  <p class="lead">Browse curated skyline apartments and lock direct founder pricing.</p>
-                </article>
-                <article class="step glass float-card glow-border">
-                  <p class="step__num">02</p>
-                  <h3>Book direct</h3>
-                  <p class="lead">Reserve in minutes — keyless entry, instant confirmation, zero platform markup.</p>
-                </article>
-                <article class="step glass float-card glow-border">
-                  <p class="step__num">03</p>
-                  <h3>Arrive & unwind</h3>
-                  <p class="lead">Walk in, check in from your phone, and let the view do the rest.</p>
-                </article>
-              </div>
-            </div>
-          </section>
-
-          <!-- SCENE 4 · THE STAY -->
-          <section class="scene scene--stay" id="s-stay" data-start="0.615" data-end="0.758" aria-label="The stay">
-            <div class="scene__inner stagger">
+        <!-- Panel 3: Bento Grid -->
+        <div class="hero-overlay-panel" id="panel-bento">
+          <div class="bento-grid" id="bento-grid">
+            <div class="bento-item">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e3c37c" stroke-width="1.5" style="margin-bottom:auto;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
               <div>
-                <p class="eyebrow" style="justify-content:flex-start">The stay</p>
-                <h2 class="text-reveal" style="margin-top:.9rem"><span class="text-reveal__line">Slow mornings,</span><br><span class="text-reveal__line"><em class="serif grad-anim">late&#8209;night Noida.</em></span></h2>
-                <p class="pull" style="margin-top:1.3rem">A bed you won't want to leave, a view you won't close the blinds on.</p>
-              </div>
-              <div class="glass float-card glow-border">
-                <p class="lead" style="font-size:1rem">Every suite is outfitted for the guest who refuses to compromise — fibre-fast Wi&#8209;Fi, a real kitchen, a desk that faces the skyline and concierge that answers in seconds. And because we own the building, the best price in the city is one tap away.</p>
-                <ul class="ticks" style="margin-top:1.1rem">
-                  <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Instant, keyless check&#8209;in from your phone</li>
-                  <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Founder pricing when you book direct</li>
-                  <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Zero platform fees, zero markup</li>
-                </ul>
+                <h3>Sky Deck</h3>
+                <p>Unmatched panoramic views from the exclusive resident lounge.</p>
               </div>
             </div>
-          </section>
-
-<!-- SCENE 5 · THE FILM STRIP -->
-          <section class="scene" id="s-frames" data-start="0.785" data-end="0.905" aria-label="The postcard set">
-            <div class="scene__inner stagger">
-              <p class="eyebrow">The postcards</p>
-              <h2 class="text-reveal"><span class="text-reveal__line">A living postcard</span> <span class="text-reveal__line"><em class="serif grad-anim">of the centre.</em></span></h2>
-              <div class="filmstrip stagger">
-                <figure class="postcard float-card" aria-label="Postcard — the towers of Gaur City Centre">
-                  <img class="postcard__art" src="postcards/gcc_tower.jpg" alt="Gaur City Centre towers" loading="lazy">
-                  <span class="postcard__stamp" aria-hidden="true">GCC<b>6</b></span>
-                  <figcaption class="postcard__cap"><span>Rise over the centre</span><span class="postcard__n">01</span></figcaption>
-                </figure>
-                <figure class="postcard float-card" aria-label="Postcard — the high-street retail at the centre">
-                  <img class="postcard__art" src="postcards/gcc_entrance.jpg" alt="Gaur City Centre retail entrance" loading="lazy">
-                  <span class="postcard__stamp" aria-hidden="true">GCC<b>3</b></span>
-                  <figcaption class="postcard__cap"><span>High street · Sector&nbsp;4</span><span class="postcard__n">02</span></figcaption>
-                </figure>
-                <figure class="postcard float-card" aria-label="Postcard — the retail & leisure blocks">
-                  <img class="postcard__art" src="postcards/gcc_retail.jpg" alt="Gaur City Centre retail blocks" loading="lazy">
-                  <span class="postcard__stamp" aria-hidden="true">GCC<b>24</b></span>
-                  <figcaption class="postcard__cap"><span>Retail & leisure</span><span class="postcard__n">03</span></figcaption>
-                </figure>
-                <figure class="postcard float-card" aria-label="Postcard — the full span of the centre">
-                  <img class="postcard__art" src="postcards/gcc_panorama.jpg" alt="Gaur City Centre panorama" loading="lazy">
-                  <span class="postcard__stamp" aria-hidden="true">GCC<b>6</b></span>
-                  <figcaption class="postcard__cap"><span>Full span, Gaur&nbsp;Chowk</span><span class="postcard__n">04</span></figcaption>
-                </figure>
-                <figure class="postcard float-card" aria-label="Postcard — Gaur City Centre mall in daylight">
-                  <img class="postcard__art" src="postcards/gcc_mall_day.jpg" alt="Gaur City Centre mall by day" loading="lazy">
-                  <span class="postcard__stamp" aria-hidden="true">GCC<b>6</b></span>
-                  <figcaption class="postcard__cap"><span>The mall, daylight</span><span class="postcard__n">05</span></figcaption>
-                </figure>
-                <figure class="postcard float-card" aria-label="Postcard — Gaur City Centre lit after dark">
-                  <img class="postcard__art" src="postcards/gcc_mall_evening.jpg" alt="Gaur City Centre mall by night" loading="lazy">
-                  <span class="postcard__stamp" aria-hidden="true">GCC<b>6</b></span>
-                  <figcaption class="postcard__cap"><span>City after dark</span><span class="postcard__n">06</span></figcaption>
-                </figure>
-              </div>
-              <p class="lead gallery__note-holder" style="font-size:.92rem;color:var(--faint)">Six postcard views of the centre — the skyline you&rsquo;ll wake up to.</p>
+            <div class="bento-item">
+               <h3>24/7 Concierge</h3>
+               <p>Dedicated staff catering to your every need.</p>
             </div>
-          </section>
-
-          <!-- SCENE 6 · CLOSING CTA -->
-          <section class="scene scene--cta" id="s-cta" data-start="0.930" data-end="1.000" data-last="1" aria-label="Book your stay">
-            <div class="scene__inner stagger">
-              <p class="eyebrow">Direct booking</p>
-              <h2 class="text-reveal"><span class="text-reveal__line">The city's best stay</span><br><span class="text-reveal__line"><em class="serif grad-anim">opens its doors.</em></span></h2>
-              <p class="lead text-reveal"><span class="text-reveal__line">Book now, direct from this page — be first through the doors, at founder pricing.</span></p>
-              <div class="cta-actions">
-                <a class="btn btn--magnetic glow-border" href="mailto:stay@gaurcitycentre.in?subject=Suite%20enquiry"><span class="btn__txt">Book your stay</span> <span class="btn__ar" aria-hidden="true">→</span></a>
-                <a class="btn btn--ghost glow-border" href="tel:+919119111111">Call the concierge</a>
-              </div>
-              <div class="cta-tr" aria-hidden="true">
-                <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Instant confirmation</span>
-                <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No booking fees</span>
-                <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Free cancellation</span>
-              </div>
+            <div class="bento-item">
+               <h3>Smart Home</h3>
+               <p>Fully integrated climate and lighting control.</p>
             </div>
-          </section>
-
+            <div class="bento-item">
+               <h3>Spa Oasis</h3>
+               <p>Temperature-controlled infinity pools and wellness center.</p>
+            </div>
+            <div class="bento-item">
+               <h3>Valet Parking</h3>
+               <p>Automated multi-level parking solutions.</p>
+            </div>
+          </div>
         </div>
-
-        <p class="film__hint" aria-hidden="true">Scroll to enter<b></b></p>
-        <p class="film__chapter" aria-hidden="true"><i id="chapterIdx">00</i><span id="chapterLabel">The skyline</span></p>
-        <div class="film__bar" aria-hidden="true"><span id="scrubBar"></span></div>
+        
       </div>
     </div>
-  </section>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <a class="brand" href="#top">
-            <span class="brand-mark" aria-hidden="true">G</span>
-            GAUR&nbsp;CITY&nbsp;CENTRE
-          </a>
-          <p class="lead" style="margin-top:1rem;font-size:.98rem;">The best Airbnb apartments in Noida. One skyline, always yours.</p>
+    <section id="discover">
+      <div class="container content-grid">
+        <div class="fade-up">
+          <h2>A seamless blend of luxury and design.</h2>
+          <p style="margin-top: 1.5rem; color: var(--text-muted);">
+            Experience architectural brilliance in the heart of the city. Every detail has been meticulously crafted to provide a living experience that transcends the ordinary.
+          </p>
         </div>
-        <div>
-          <h3>Navigate</h3>
-          <ul>
-            <li><a href="#stay" data-scene="stay">The stay</a></li>
-            <li><a href="#how" data-scene="how">How it works</a></li>
-            <li><a href="#frames" data-scene="frames">The film</a></li>
-            <li><a href="#book" data-scene="cta">Book your stay</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Find us</h3>
-          <p class="addr">Tower A, Gaur City Centre, Sector&nbsp;4,<br>Greater Noida West, Noida, India</p>
-          <ul>
-            <li><a href="tel:+919119111111">+91 91191 11111</a></li>
-            <li><a href="mailto:stay@gaurcitycentre.in">stay@gaurcitycentre.in</a></li>
-          </ul>
+        <div class="card">
+          <h3 class="card-title">Curated Spaces</h3>
+          <p>Expansive layouts with panoramic views, designed for maximum light and flow.</p>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Gaur City Centre Apartments. All rights reserved.</p>
-        <p><b>Direct booking only</b> · no platform fees</p>
+    </section>
+    
+    <section id="residences" style="background: var(--surface-color);">
+      <div class="container">
+        <div class="fade-up" style="text-align: center; max-width: 800px; margin: 0 auto 4rem;">
+          <h2>Uncompromising Quality</h2>
+          <p style="margin-top: 1.5rem; color: var(--text-muted);">
+            From the grand lobby to your private terrace, we employ only the finest materials and state-of-the-art technology.
+          </p>
+        </div>
+        
+        <div class="content-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+          <div class="card stat-card" style="text-align: center;">
+            <h3 class="display" style="color: var(--accent-color); font-size: 4rem; margin-bottom: 0.5rem;"><span class="stat__num" data-target="50">0</span>+</h3>
+            <p>Premium Amenities</p>
+          </div>
+          <div class="card stat-card" style="text-align: center;">
+            <h3 class="display" style="color: var(--accent-color); font-size: 4rem; margin-bottom: 0.5rem;"><span class="stat__num" data-target="100">0</span>%</h3>
+            <p>Attention to Detail</p>
+          </div>
+          <div class="card stat-card" style="text-align: center;">
+            <h3 class="display" style="color: var(--accent-color); font-size: 4rem; margin-bottom: 0.5rem;"><span class="stat__num" data-target="24">0</span>/7</h3>
+            <p>Concierge Service</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+  </main>
+
+  <footer style="padding: 4rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+    <p style="color: var(--text-muted);">© 2026 Gaur City Centre. All rights reserved.</p>
   </footer>
 
-</main>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const video = document.getElementById("hero-video");
+      const heroSpacer = document.querySelector(".hero-spacer");
+      
+      const panelIntro = document.getElementById("panel-intro");
+      const panelArch = document.getElementById("panel-architecture");
+      const panelBento = document.getElementById("panel-bento");
 
-<script>
-(function(){
-  "use strict";
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var reduceT = window.matchMedia("(prefers-reduced-transparency: reduce)").matches;
-  var canvas = document.getElementById("filmCanvas");
-  var ctx = canvas ? canvas.getContext("2d") : null;
-  var spriteOn = !!ctx;
-  var scroller = document.querySelector(".film__scroller");
-  var pin = document.querySelector(".film__pin");
-  var scenesRoot = document.getElementById("scenes");
-  var scenes = [].slice.call(document.querySelectorAll(".scene"));
-  var veilHi = document.getElementById("veilHi");
-  var barSpan = document.getElementById("scrubBar");
-  var prog = document.getElementById("scrollprog");
-  var chIdx = document.getElementById("chapterIdx");
-  var chLbl = document.getElementById("chapterLabel");
+      // Initial state setups for anime.js text reveal
+      anime.set('#arch-text span', { opacity: 0, translateY: 40, rotateX: -40 });
+      anime.set('.bento-item', { opacity: 0, translateY: 80, scale: 0.95 });
+      
+      // Check for reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var CHAPTERS = [
-    [0.000,"The skyline"],[0.155,"At a glance"],[0.265,"The numbers"],[0.430,"How it works"],
-    [0.615,"The stay"],[0.785,"The film"],[0.930,"Doors open"]
-  ];
-
-  var ready = false, progress = 0, raf = null;
-
-  function sceneRange(el){
-    return {
-      start: parseFloat(el.dataset.start) || 0,
-      end:   parseFloat(el.dataset.end)   || 1,
-      onload: el.hasAttribute("data-onload"),
-      last:   el.hasAttribute("data-last")
-    };
-  }
-
-  /* Progress → scene state. Feather keeps fades snappy (~<300ms scrub time) per design-eng rules. */
-  function sceneState(r, p, feather){
-    var fe = feather || 0.035;
-    if (p < r.start || p > r.end) return { o:0, y:26 };
-    if (r.onload && p <= r.end - fe) return { o:1, y:0 };              // hero lives from the first frame
-    if (r.last && p >= r.end - fe) return { o:1, y:0 };                // cta stays until the film finishes
-    if (p >= r.start + fe && p <= r.end - fe) return { o:1, y:0 };
-    if (p < r.start + fe){
-      var k = (p - r.start) / fe;
-      return { o: k, y: 26 * (1 - k) };
-    }
-    var k2 = (r.end - p) / fe;
-    return { o: k2, y: -26 * (1 - k2) };
-  }
-
-  var sceneData = scenes.map(sceneRange);
-  var innerNodes = scenes.map(function(s){ return s.querySelector(".scene__inner"); });
-
-  function updateScenes(){
-    var feather = reduce ? 0.14 : 0.035;
-    var anyVisible = false;
-    for (var i = 0; i < scenes.length; i++){
-      var st = sceneState(sceneData[i], progress, feather);
-      var el = scenes[i];
-      if (reduce) st.y = 0;
-      el.style.opacity = st.o.toFixed(3);
-      el.style.visibility = st.o > 0.008 ? "visible" : "hidden";
-      el.style.pointerEvents = st.o > 0.2 ? "auto" : "none";
-      if (innerNodes[i]) innerNodes[i].style.transform = st.y ? "translateY(" + st.y.toFixed(1) + "px)" : "none";
-      if (st.o > 0.05) anyVisible = true;
-    }
-    if (veilHi) veilHi.style.opacity = anyVisible ? 1 : 0;
-  }
-
-  function chapter(){
-    if (!chLbl) return;
-    var ch = CHAPTERS[0];
-    for (var i = 0; i < CHAPTERS.length; i++) if (progress >= CHAPTERS[i][0]) ch = CHAPTERS[i];
-    chIdx.textContent = String(CHAPTERS.indexOf(ch)).padStart(2,"0");
-    chLbl.textContent = ch[1];
-  }
-
-  function onScroll(){
-    var rect = scroller.getBoundingClientRect();
-    var span = rect.height - window.innerHeight;
-    if (span <= 0){ progress = 0; return; }
-    progress = Math.min(1, Math.max(0, -rect.top / span));
-  }
-
-  /* Scrub engine — snap to whole film frames. The film draws 768 frames
-     from 128 jpg sheets (6 frames per sheet: a 3×2 grid of 1920×1080 cells)
-     onto a canvas. Only the sheet holding the pointer frame is loaded. */
-  var TOTAL_FRAMES = 768, lastSeek = -1;
-
-  var SHEET_COLS = 3, SHEET_ROWS = 2, FRAMES_PER_SHEET = 6;
-  var SHEET_W = 1920, SHEET_H = 1080;
-
-  function desiredFrame(pr){
-    var n = Math.round(pr * (TOTAL_FRAMES - 1));
-    return Math.max(0, Math.min(TOTAL_FRAMES - 1, n));
-  }
-
-  var sheets = [];
-  function sheetSrc(i){
-    return "sprites/sheet_" + (i < 10 ? "00" + i : i < 100 ? "0" + i : i) + ".jpg";
-  }
-  function drawSprite(n){
-    if (!ctx) return;
-    var sheet = sheets[n / FRAMES_PER_SHEET | 0];
-    var cell = n % FRAMES_PER_SHEET;
-    var sx = (cell % SHEET_COLS) * SHEET_W;
-    var sy = ((cell / SHEET_COLS) | 0) * SHEET_H;
-    ctx.drawImage(sheet, sx, sy, SHEET_W, SHEET_H, 0, 0, canvas.width, canvas.height);
-  }
-  function loadSprite(n){
-    if (sheets[n / FRAMES_PER_SHEET | 0]) { drawSprite(n); return; }
-    var img = new Image();
-    img.onload = function(){ drawSprite(n); };
-    img.src = sheetSrc(n / FRAMES_PER_SHEET | 0);
-    sheets[n / FRAMES_PER_SHEET | 0] = img;
-  }
-
-  function seekTo(n){
-    if (n === lastSeek) return;
-    lastSeek = n;
-    if (spriteOn) loadSprite(n);
-  }
-
-  function tick(){
-    raf = requestAnimationFrame(tick);
-    if (ready) seekTo(desiredFrame(progress));
-  }
-
-  function bind(){
-    onScroll();
-    updateScenes();
-    chapter();
-    if (prog) prog.style.width = (progress * 100) + "%";
-    if (barSpan) barSpan.style.width = (progress * 100) + "%";
-    if (ready){
-      seekTo(desiredFrame(progress));
-      if (!raf) raf = requestAnimationFrame(tick);
-    }
-  }
-
-  /* nav links scroll to a scene (the film is one pin, progress maps 1:1 to scroll) */
-  document.querySelectorAll("[data-scene]").forEach(function(a){
-    a.addEventListener("click", function(ev){
-      ev.preventDefault();
-      var name = a.getAttribute("data-scene");
-      var el = document.getElementById("s-" + name);
-      if (!el){ window.location.hash = "#" + name; return; }
-      var r = sceneRange(el);
-      var mid = (r.start + r.end) / 2;
-      var rect = scroller.getBoundingClientRect();
-      var span = rect.height - window.innerHeight;
-      var y = span * mid;
-      if (reduce){ window.location.hash = "#" + name; return; }
-      (function churn(y){
-        window.scrollTo({ top: y, behavior: "smooth" });
-      })(y);
-      history.replaceState(null, "", "#" + name);
-    });
-  });
-
-  // ------------------------------------------------------------------
-  // Enhanced motion (skipped for reduced-motion):
-  //   counters (a number counting up is not motion — always runs),
-  //   marquee CSS handles its own stop, pointer-down scale is gated below.
-  // ------------------------------------------------------------------
-
-  /* ---------- anime.js counters (vanilla fallback) ---------- */
-  function runCounter(num, el){
-    var end = parseInt(num,10); if (isNaN(end)) return;
-    var dur = 1400;
-    if (window.anime){
-      var o = { v: 0 };
-      window.anime({ targets:o, v:end, round:1, duration:dur, easing:"easeOutExpo", update:function(){ el.textContent = o.v; } });
-    } else {
-      var t0 = null;
-      function step(t){
-        if (!t0) t0 = t;
-        var k = Math.min(1,(t-t0)/dur); var e = 1 - Math.pow(2,-10*k);
-        el.textContent = Math.round(e*end);
-        if (k < 1) requestAnimationFrame(step); else el.textContent = end;
+      // Magnetic Button interaction
+      const magWrap = document.querySelector('.magnetic-btn-wrap');
+      const magBtn = document.querySelector('.cta-button');
+      if (magWrap && !prefersReducedMotion) {
+        magWrap.addEventListener('mousemove', (e) => {
+           const rect = magWrap.getBoundingClientRect();
+           const x = e.clientX - rect.left - rect.width / 2;
+           const y = e.clientY - rect.top - rect.height / 2;
+           anime({ targets: magBtn, translateX: x * 0.4, translateY: y * 0.4, duration: 150, easing: 'easeOutQuad' });
+        });
+        magWrap.addEventListener('mouseleave', () => {
+           anime({ targets: magBtn, translateX: 0, translateY: 0, duration: 800, easing: 'easeOutElastic(1, .5)' });
+        });
       }
-      requestAnimationFrame(step);
-    }
-  }
-  var cio = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        var el = entry.target;
-        runCounter(el.dataset.count, el);
-        cio.unobserve(el);
+
+      if (prefersReducedMotion) {
+        // Reduced motion: skip scrub, play video silently
+        video.autoplay = true; video.loop = true; video.play().catch(e => console.log("Autoplay prevented:", e));
+        anime.set('.fade-up, .card', { opacity: 1, translateY: 0 });
+      } else {
+        video.addEventListener('loadeddata', () => {
+          let targetTime = 0; let currentTime = 0; const lerpFactor = 0.12;
+          video.pause();
+
+          let archRevealed = false;
+          let bentoRevealed = false;
+
+          const updateVideoTime = () => {
+            currentTime += (targetTime - currentTime) * lerpFactor;
+            if (Math.abs(currentTime - video.currentTime) > 0.01) {
+              video.currentTime = currentTime;
+            }
+            requestAnimationFrame(updateVideoTime);
+          };
+          requestAnimationFrame(updateVideoTime);
+
+          window.addEventListener('scroll', () => {
+            const rect = heroSpacer.getBoundingClientRect();
+            const totalScroll = rect.height - window.innerHeight;
+            let progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
+            
+            if (Number.isFinite(video.duration)) {
+              targetTime = progress * video.duration;
+            }
+
+            // Panel 1: 0 to 0.25
+            if (progress < 0.25) {
+               const p = Math.min(1, progress / 0.2);
+               panelIntro.style.opacity = 1 - p*2;
+               panelIntro.style.transform = `translate(-50%, calc(-50% - ${p * 50}px))`;
+               panelIntro.classList.add('active');
+            } else {
+               panelIntro.style.opacity = 0;
+               panelIntro.classList.remove('active');
+            }
+
+            // Panel 2: 0.3 to 0.55
+            if (progress >= 0.25 && progress < 0.6) {
+               const pIn = Math.min(1, (progress - 0.25) / 0.05);
+               const pOut = Math.max(0, (progress - 0.5) / 0.1);
+               panelArch.style.opacity = pIn - pOut;
+               panelArch.style.transform = `translate(-50%, calc(-50% - ${(progress-0.25)*200}px))`;
+               panelArch.classList.add('active');
+
+               if (!archRevealed && progress > 0.28) {
+                 archRevealed = true;
+                 anime({ targets: '#arch-text span', opacity: [0, 1], translateY: [40, 0], rotateX: [-40, 0], delay: anime.stagger(80), easing: 'easeOutQuint', duration: 1000 });
+               }
+            } else {
+               panelArch.style.opacity = 0;
+               panelArch.classList.remove('active');
+               if (progress < 0.2 || progress > 0.65) {
+                 archRevealed = false; // Reset for scrolling back
+                 anime.set('#arch-text span', { opacity: 0, translateY: 40, rotateX: -40 });
+               }
+            }
+
+            // Panel 3: 0.6 to 0.95
+            if (progress >= 0.55) {
+               const pIn = Math.min(1, (progress - 0.55) / 0.1);
+               panelBento.style.opacity = pIn;
+               panelBento.style.transform = `translate(-50%, calc(-50% - ${(progress-0.55)*100}px))`;
+               panelBento.classList.add('active');
+
+               if (!bentoRevealed && progress > 0.6) {
+                 bentoRevealed = true;
+                 anime({ targets: '.bento-item', opacity: [0, 1], translateY: [80, 0], scale: [0.95, 1], delay: anime.stagger(100), easing: 'easeOutElastic(1, .8)', duration: 1200 });
+               }
+            } else {
+               panelBento.style.opacity = 0;
+               panelBento.classList.remove('active');
+               if (progress < 0.5) {
+                 bentoRevealed = false;
+                 anime.set('.bento-item', { opacity: 0, translateY: 80, scale: 0.95 });
+               }
+            }
+          }, { passive: true });
+        });
+        
+        setTimeout(() => { if (video.readyState >= 1) video.dispatchEvent(new Event('loadeddata')); }, 1000);
+      }
+
+      // Intersection Observers for lower page sections
+      const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+
+      if (!prefersReducedMotion) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              anime({ targets: entry.target, opacity: [0, 1], translateY: [40, 0], duration: 1200, easing: 'easeOutCubic' });
+              obs.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up, .card:not(.stat-card)').forEach(el => observer.observe(el));
+
+        const statObserver = new IntersectionObserver((entries, obs) => {
+           entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                 const el = entry.target;
+                 const numEl = el.querySelector('.stat__num');
+                 anime({ targets: el, opacity: [0, 1], translateY: [40, 0], duration: 1200, easing: 'easeOutCubic' });
+                 anime({ targets: numEl, innerHTML: [0, parseInt(numEl.dataset.target)], round: 1, duration: 2500, easing: 'easeOutExpo' });
+                 obs.unobserve(el);
+              }
+           });
+        }, observerOptions);
+        document.querySelectorAll('.stat-card').forEach(el => statObserver.observe(el));
+      } else {
+         document.querySelectorAll('.stat__num').forEach(el => el.innerHTML = el.dataset.target);
       }
     });
-  }, { threshold:.5 });
-  document.querySelectorAll("[data-count]").forEach(function(el){ cio.observe(el); });
-
-  /* ---------- pointer-down feedback (respond on press) ---------- */
-  if (!reduce){
-    document.querySelectorAll(".btn, .nav-cta, .brand, .nav-links a").forEach(function(el){
-      el.addEventListener("pointerdown", function(){
-        el.style.transition = "transform 100ms ease-out";
-        el.style.transform = "scale(.975)";
-      });
-      var release = function(){
-        el.style.transition = "transform 500ms var(--ease-out)";
-        el.style.transform = "none";
-      };
-      el.addEventListener("pointerup", release);
-      el.addEventListener("pointercancel", release);
-      el.addEventListener("pointerleave", release);
-    });
-  }
-
-  if (reduce || !spriteOn){
-    document.documentElement.classList.add("reduce-motion");
-    if (spriteOn) loadSprite(0);                 // static hero frame on the canvas
-  } else {
-    loadSprite(desiredFrame(0));                 // warm the first sheet
-    ready = true;
-    bind();
-    if (!raf) raf = requestAnimationFrame(tick);
-  }
-
-  window.addEventListener("scroll", bind, { passive:true });
-  window.addEventListener("resize", bind, { passive:true });
-  bind();
-})();
-</script>
+  </script>
 </body>
 </html>
