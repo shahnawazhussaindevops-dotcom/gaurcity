@@ -366,6 +366,20 @@
           let targetTime = 0; let currentTime = 0; const lerpFactor = 0.12;
           video.pause();
 
+          // Fix for Android/iOS black screen: force hardware decode on first touch
+          let isVideoDecoded = false;
+          const forceDecode = () => {
+             if (!isVideoDecoded) {
+                isVideoDecoded = true;
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                   playPromise.then(() => { video.pause(); }).catch(() => {});
+                }
+             }
+          };
+          window.addEventListener('touchstart', forceDecode, { once: true, passive: true });
+          window.addEventListener('click', forceDecode, { once: true, passive: true });
+
           let archRevealed = false; let bentoRevealed = false;
 
           const updateVideoTime = () => {
