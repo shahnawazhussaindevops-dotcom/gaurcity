@@ -50,8 +50,6 @@
       position: absolute; top: 0; left: 0; 
       width: 100%; height: 100%;
       object-fit: cover; z-index: -1; opacity: 0.9;
-      transform: scale(0.9); transform-origin: center;
-      transition: transform 0.2s ease-out;
     }
 
     /* Hero Panels */
@@ -156,7 +154,7 @@
     <!-- 1. Hero Section -->
     <div class="hero-spacer">
       <div class="hero-sticky">
-        <video id="hero-video" src="hq_scrub.mp4" playsinline muted preload="auto" aria-hidden="true"></video>
+        <video id="hero-video" src="scrub.mp4" playsinline muted preload="auto" aria-hidden="true"></video>
         
         <div class="hero-overlay-panel" id="panel-intro">
           <p class="subhead">The New Standard</p>
@@ -399,9 +397,6 @@
             let progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
             
             if (Number.isFinite(video.duration)) { targetTime = progress * video.duration; }
-            
-            // Dynamic Zoom Effect
-            video.style.transform = `scale(${0.9 + (progress * 0.15)})`;
 
             if (progress < 0.25) {
                const p = Math.min(1, progress / 0.2);
