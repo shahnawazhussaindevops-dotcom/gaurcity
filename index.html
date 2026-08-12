@@ -46,7 +46,7 @@
       z-index: 0; pointer-events: none;
     }
 
-    #hero-canvas {
+    #hero-video {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       object-fit: cover; z-index: -1; opacity: 0.9;
     }
@@ -153,7 +153,7 @@
     <!-- 1. Hero Section -->
     <div class="hero-spacer">
       <div class="hero-sticky">
-        <canvas id="hero-canvas" width="1920" height="1080" aria-hidden="true"></canvas>
+        <video id="hero-video" src="scrub.mp4" playsinline muted preload="auto" aria-hidden="true"></video>
         
         <div class="hero-overlay-panel" id="panel-intro">
           <p class="subhead">The New Standard</p>
@@ -348,8 +348,7 @@
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       
       // Hero Scrub Logic
-      const canvas = document.getElementById("hero-canvas");
-      const context = canvas ? canvas.getContext("2d") : null;
+      const video = document.getElementById("hero-video");
       const heroSpacer = document.querySelector(".hero-spacer");
       const panelIntro = document.getElementById("panel-intro");
       const panelArch = document.getElementById("panel-architecture");
@@ -358,53 +357,46 @@
       anime.set('#arch-text span', { opacity: 0, translateY: 40, rotateX: -40 });
       anime.set('.bento-item', { opacity: 0, translateY: 80, scale: 0.95 });
 
-      const frameCount = 192;
-      const currentFrame = index => `sprites/sheet_${index.toString().padStart(3, '0')}.jpg`;
-      
-      // Load first frame immediately
-      if (context) {
-         const firstImg = new Image();
-         firstImg.src = currentFrame(0);
-         firstImg.onload = () => context.drawImage(firstImg, 0, 0, 1920, 1080);
-      }
-
       if (prefersReducedMotion) {
+        video.autoplay = true; video.loop = true; video.play().catch(e => {});
+        video.style.transform = "scale(1)";
         anime.set('.fade-up', { opacity: 1, translateY: 0 });
       } else {
-          let targetFrame = 0; let currentFrameIdx = 0; const lerpFactor = 0.12;
-          let archRevealed = false; let bentoRevealed = false;
-          
-          // Image cache to prevent flickering
-          const imgCache = {};
-          
-          const updateCanvasFrame = () => {
-            currentFrameIdx += (targetFrame - currentFrameIdx) * lerpFactor;
-            
-            // Only draw if we've moved significantly
-            const drawIdx = Math.floor(currentFrameIdx);
-            
-            if (context) {
-               if (imgCache[drawIdx]) {
-                  context.drawImage(imgCache[drawIdx], 0, 0, 1920, 1080);
-               } else {
-                  const img = new Image();
-                  img.src = currentFrame(drawIdx);
-                  img.onload = () => {
-                     imgCache[drawIdx] = img;
-                     context.drawImage(img, 0, 0, 1920, 1080);
-                  };
-               }
-            }
-            requestAnimationFrame(updateCanvasFrame);
+        video.addEventListener('loadeddata', () => {
+          let targetTime = 0; let currentTime = 0; const lerpFactor = 0.12;
+          video.pause();
+
+          // Fix for Android/iOS black screen: force hardware decode on first touch
+          let isVideoDecoded = false;
+          const forceDecode = () => {
+             if (!isVideoDecoded) {
+                isVideoDecoded = true;
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                   playPromise.then(() => { video.pause(); }).catch(() => {});
+                }
+             }
           };
-          requestAnimationFrame(updateCanvasFrame);
+          window.addEventListener('touchstart', forceDecode, { once: true, passive: true });
+          window.addEventListener('click', forceDecode, { once: true, passive: true });
+
+          let archRevealed = false; let bentoRevealed = false;
+
+          const updateVideoTime = () => {
+            currentTime += (targetTime - currentTime) * lerpFactor;
+            if (Math.abs(currentTime - video.currentTime) > 0.01) {
+              video.currentTime = currentTime;
+            }
+            requestAnimationFrame(updateVideoTime);
+          };
+          requestAnimationFrame(updateVideoTime);
 
           window.addEventListener('scroll', () => {
             const rect = heroSpacer.getBoundingClientRect();
             const totalScroll = rect.height - window.innerHeight;
             let progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
             
-            targetFrame = progress * (frameCount - 1);
+            if (Number.isFinite(video.duration)) { targetTime = progress * video.duration; }
 
             if (progress < 0.25) {
                const p = Math.min(1, progress / 0.2);
@@ -452,6 +444,8 @@
                }
             }
           }, { passive: true });
+        });
+        setTimeout(() => { if (video.readyState >= 1) video.dispatchEvent(new Event('loadeddata')); }, 1000);
       }
 
       // Magnetic Button
