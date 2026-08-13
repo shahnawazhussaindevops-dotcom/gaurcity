@@ -362,7 +362,19 @@
         video.autoplay = true; video.loop = true; video.play().catch(e => {});
         anime.set('.fade-up', { opacity: 1, translateY: 0 });
       } else {
+        // Preload video as Blob for smooth scrubbing (fixes Vercel caching & iOS range request issues)
+        fetch(video.getAttribute('src'))
+          .then(res => res.blob())
+          .then(blob => {
+            video.src = URL.createObjectURL(blob);
+            video.load();
+          })
+          .catch(e => console.error("Video preload failed:", e));
+
         video.addEventListener('loadeddata', () => {
+          if (video.dataset.initialized) return;
+          video.dataset.initialized = 'true';
+
           let targetTime = 0; let currentTime = 0; const lerpFactor = 0.12;
           video.pause();
 
